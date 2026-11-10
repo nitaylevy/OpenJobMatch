@@ -1,0 +1,771 @@
+job 1
+
+In this role you will
+
+Perform CFD simulations and analyze simulation results
+
+Process and analyze data from wind tunnel tests, flight experiments, and simulations
+
+Build, maintain, and update aerodynamic databases
+
+Participate in validation processes of computational models against experimental data
+
+Develop automation processes for data analysis and supporting engineering tools
+
+Prepare engineering reports and technical presentations
+
+Work closely with design, structures, control, and simulation teams
+
+Requirements
+
+B.Sc. or M.Sc. student in Aerospace Engineering
+
+At least one and a half years of studies remaining
+
+Basic knowledge of aerodynamics and fluid dynamics
+
+Experience with Python and/or MATLAB
+
+Experience working with CFD tools - Advantage
+
+Knowledge in data processing and analysis - Advantage
+
+Programming or automation experience - Advantage
+
+Self-learning ability, independent work skills, and analytical thinking
+
+*Only relevant applications will be answered
+
+job 2
+
+What will you do?
+
+ You will work closely with expert engineers to support day-to-day engineering advanced work: support production needs, responsibility for highly advanced processes, and equipment stability.
+ Be responsible for the implementation of new processes and methods, Proactive detection of malfunctions, Troubleshooting, Etc. using cutting-edge tools and methods.
+ Take a part in implementing groundbreaking Automation solutions in Engineering and quality management systems to ensure fast response to production line needs.
+ In this role, you'll be getting the experience you need, with the right balance of work and studies.
+
+Qualifications
+
+What are we looking for?
+
+ B.Sc. Student of Mechanical Engineering, Materials Engineering, or Chemical Engineering
+ Ability to work at least 20 hours per week. (2.5 days a week)
+ 2 Semesters until graduation
+ Strong data analysis abilities and data systems orientation.
+ Ability to work independently and be a team player
+ Excellent English
+ High knowledge of statistical data analysis- advantage
+ 
+job 3
+
+Key Responsibilities
+
+ Develop and maintain software automation tools and frameworks for AI software validation.
+ Create and improve automated validation flows to increase coverage, efficiency, and reliability.
+ Develop Python-based tools and scripts for testing, debugging, and software validation.
+ Explore and apply AI tools and agentic workflows to automate engineering and validation tasks.
+ Collaborate with software, hardware, and validation engineers to debug issues and improve product quality.
+ Participate in hands-on projects that contribute directly to Intel's AI validation and engineering goals while building technical expertise.
+
+Business Group
+
+The Data Center Group (DCG) drives innovation to deliver world-class solutions for data-centric workloads, enabling businesses to unlock their potential in a rapidly evolving digital landscape. The group advances cutting-edge technologies in AI, cloud computing, and data processing while fostering collaboration across Intel to power the future of computing.
+
+Qualifications
+
+Minimum Qualifications
+
+ Student pursuing a B.Sc. or MSc. in Computer Engineering, Computer Science, or a related field, with at least 3 semesters remaining until graduation.
+ Strong proficiency in Python programming and software development fundamentals.
+ Self-motivated learner with a passion for software and tools development, system architecture, and debugging.
+ Ability to learn quickly, work independently, and adapt to a dynamic engineering environment.
+
+Preferred Qualifications
+
+ Experience with AI tools and agentic workflows, through academic projects, personal projects, internships, or hands-on experience.
+ Programming experience in C or C++.
+ Familiarity with Linux, Git, CI/CD, and software development and debugging tools.
+
+job 4
+
+What will your job look like?
+
+Monitor the network, servers, hardware, routers, switches, firewalls, and remote technologies.
+Field incoming calls, help clients troubleshoot IT 1st level issues, diagnose network and server problems, and provide resolutions.
+Oversee the preventative maintenance of all networking equipment for various industries.
+Document all incoming calls and record the technical issues addressed in each call.
+Analyze data, build and provide reports base on that data.
+Maintain logs of resolutions, communicate with vendors about ongoing problems, and use a ticketing system to update. information regarding the progress of each call.
+
+All you need is:
+
+Engineering degree student with at least four semesters remaining.
+Ability to work weekends and nights.
+Ability to provide at least 3 shifts per week.
+High level of English.
+Knowledge in Python and C++ - Advantage.
+
+job 5
+
+Responsibilities
+
+SERDES IP System Simulation Support: SERDES IPs reference channel definition, creation and parameters extraction under guidance from a senior engineer
+SERDES IPs Integration Support: Silicon IPs parameters review and validation with conjunction the package and PCBs design according to the interface specification
+Package and PCB Design Verification: Participate in the package and PCB schematics and layouts review activities, review simulations results, and help debug and resolve failing simulations
+Mixed-Signal and Channel Simulation: Learn and apply Signal and Power Integrity environments concepts, including SIPI circuits, channels and IOs simulation to support the optimisation of the package and PCB designs
+Design Quality and Optimization: Support efforts to meet power, performance and signal integrity requirements, ensuring the package and PCB designs are suitable for implementation
+Cross-Team Collaboration: Work with internal teams to ensure successful IPs, packages and PCBs integration and high-quality design delivery
+
+Qualifications
+
+Minimum Qualifications
+
+B.Sc or M.Sc Electrical Engineer at well recognised universities with average grades above 85 with one years till graduation
+Strong background in electromagnetic and waves theory of physics
+High motivated junior engineer with previous gathered experience from the university projects
+Team players who enjoy big challenges
+Ability to the study and implementation of the learned material and theory in the multidisciplinary domains: Analog and Digital Electronics, Signal and Power Integrity
+Applicants must include their academic grades sheet as part of the application
+
+Preferred Qualifications For The Student
+
+Basic or deep knowledge in Keysight ADS and HSPICE simulation setup creation and running
+Basic or deep hands-on experience in the Ansys HFSS, Cadence Clarity or similar Electromagnetic Simulation tools – setups creation and parameters definition, simulation running
+Basic or deep knowledge of the PCIe and IEEE Ethernet specification
+
+---This is a student position which is relevant for Israel Only---
+
+job 6
+
+Responsibilities
+
+Research and develop state-of-the-art computer vision models
+Optimize neural networks for real-time deployment.
+Lead best practices in deep learning and innovative solutions.
+Oversee data acquisition, annotation, and augmentation processes
+Stay up to date with the latest advancements in computer vision and deep learning
+
+Requirements
+
+B.Sc. or M.Sc. in Computer Science, Engineering, or related field.
+hands-on experience developing and optimizing deep learning models specifically for computer vision tasks (e.g., object detection, semantic segmentation, etc.).
+MUST: Proven experience in modifying and improving neural network architectures (not just using off-the-shelf models).
+Deep understanding of neural network structures, including CNNs, Transformers, and other advanced architectures, with the ability to deeply analyze existing models and enhance their architecture.
+Strong proficiency in Python, PyTorch, and classical computer vision libraries such as OpenCV.
+Proven track record of systematically designing, conducting, and analyzing experiments to drive meaningful enhancements in model performance.
+Advantage: experience optimizing models for real-time inference on GPUs or specialized hardware accelerators such as NVidia TensorRT
+
+job 7
+
+We are seeking a senior algorithms engineer to join our team.
+In this role, you will be responsible for the end-to-end development of algorithmic modules, including research, design, implementation, optimization, and delivery.
+You’ll collaborate closely with other team members to tackle complex challenges and develop high-quality Computer Vision and Deep Learning solutions.
+
+Job Requirements:
+* 5+ years of algorithmic experience in industry
+* M.Sc. in Electrical Engineering, Computer Science, Physics, or a related field
+* Solid background in Computer Vision or Image Processing, as well as Machine Learning or Deep Learning
+* Excellent analytical and problem-solving skills
+* Strong team player with excellent communication and collaboration abilities
+* Hands-on experience using Python for algorithm prototyping and performance analysis
+* Knowledge of object-oriented programming - a must
+
+job 8
+
+As a Senior Machine Learning Engineer, you will work closely with top notch engineers and data scientists to design, develop, evaluate and deploy Gen AI-powered solutions for scalable, customer-facing applications. Your work will focus on building and applying state-of-the-art agentic capabilities to drive business impact and improve efficiency.
+
+Key Job Responsibilities and Duties: 
+
+Design, develop, and deploy high-quality, performant, and efficient Generative AI-powered solutions and agentic systems into production environments.
+Evaluate and define optimal architectural solutions by considering emerging technologies, business needs, and technical requirements for latency, throughput, and scale.
+Own services end-to-end, including implementing robust monitoring and maintenance strategies to ensure application and ML health, quality, and performance.
+Write and maintain clean, scalable, and well-tested production code, ensuring reproducibility and seamless integration via CI/CD pipelines.
+Pioneer and promote best practices and the adoption of cutting-edge technology in GenAI application development.
+Collaborate effectively with Product Managers, Data Scientists, and Analysts to understand business requirements and translate them into technical ML and agentic solutions.
+Provide technical guidance and mentorship to other engineers, contributing to the team's overall technical development.
+
+
+Qualifications & Skills:
+
+Bachelor’s or master’s degree in Computer Science, Engineering, Statistics, or a related field.
+Minimum of 6 years of experience as a Machine Learning Engineer or a similar role, with a consistent record of successfully delivering ML solutions to production.
+Experience of working on products that impact a large customer base.
+Demonstrable experience and capabilities with Generative AI applications, including Large Language Models (LLMs), Agentic Systems, and MCP in production environments. Experience deploying large-scale language models (e.g., GPT, BERT, or similar architectures) - an advantage.
+Deep understanding of core machine learning algorithms, statistical models, evaluation methods, and data structures.
+Experience in designing, building, and deploying models using cloud frameworks (e.g., AWS Sagemaker) and standard ML libraries (e.g., TensorFlow, PyTorch, or scikit-learn).
+Strong programming proficiency in languages such as Python and Java.
+Strong coding practices, including writing and reviewing production-quality, maintainable, and well-tested code, with the ability to effectively leverage modern AI coding assistants while maintaining high standards for correctness, readability, and system design.
+Experience with big data processing frameworks (e.g., Pyspark, Apache Flink, Snowflake) and demonstrable experience with relational/NoSQL database systems (e.g., MySQL, Cassandra, DynamoDB).
+Excellent English communication and presentation skills, both written and verbal.
+Proficiency in data manipulation, analysis, and visualization using tools like NumPy, pandas, and matplotlib - an advantage.
+Experience with experimental design, A/B testing, and evaluation metrics for ML models - an advantage.
+
+job 9
+
+What you’ll do:
+
+Develop and improve ML models
+Build LLM-based pipelines for data enrichment, validation and quality checks
+Analyze large datasets to find patterns, data-quality issues and opportunities for business impact
+Design experiments, define metrics and evaluate model performance in production
+Turn findings into clear insights and recommendations for technical and business stakeholders
+
+Requirements:
+
+M.Sc. in Computer Science, Statistics, Mathematics, Industrial Engineering or a related quantitative field
+1–2 years of hands-on data science experience (industry, research, or strong academic/personal projects)
+Strong Python skills, including pandas, NumPy and scikit-learn
+Solid SQL skills
+Good grasp of ML fundamentals: supervised learning, feature engineering, evaluation metrics and validation
+Strong analytical thinking and a pragmatic approach to solving problems
+Able to work independently and explain your work clearly
+
+Advantage:
+
+Hands-on experience with LLMs (prompt engineering, LLM APIs, embeddings)
+Experience deploying models to production or working with MLOps tools
+Familiarity with the travel or hospitality industry
+
+job 10
+
+What You'll Do:
+
+Own the entity enrichment pipeline - a DAG-based computation engine that calculates 100+ fields, risk scores, and privilege relationships for every identity entity 
+Build and maintain data ingestion services that scrape Active Directory forests, process cloud assets from Azure/AWS via Kafka, and integrate third-party identity sources
+Design and develop new Go microservices as the team migrates performance-critical paths from Node.js/Java to Go
+Solve complex data pipeline challenges: dependency ordering, incremental computation, race condition handling, and cache invalidation at scale
+Publish entity data to CrowdStrike's centralized asset graph (SDMF), ensuring correctness and freshness for millions of identities - Optimize system performance - reduce enrichment latency, improve throughput, and handle traffic spikes gracefully - Mentor and elevate engineering talent, sharing expertise in building production systems that work under pressure 
+
+You'll Work On Problems Like: 
+
+Processing and enriching millions of identity entities through a 100+ provider dependency graph in real-time
+Building resilient Kafka consumers that handle cloud asset events at scale with exactly-once semantics
+Designing incremental computation strategies that avoid redundant work while maintaining data freshness
+Migrating critical services to Go for improved performance and resource efficiency
+Calculating identity risk scores by aggregating signals from AD privileges, behavioral patterns, and cloud permissions 
+
+Tech Stack: 
+
+Go
+Java 
+Node.js / JavaScript 
+Python 
+MongoDB, Redis, Kafka, AWS 
+
+What You'll Need: 
+
+6+ years of software engineering experience shipping production systems through complete lifecycles 
+Proven expertise designing and building data-intensive services - pipelines, enrichment engines, or event-driven architectures at scale 
+Strong proficiency in Go, Java, and Node.js (working across multiple stacks, not just one) 
+Experience with MongoDB, Kafka, and event-driven microservice patterns 
+Quality-focused mindset - you ship reliable software that works in production at scale 
+Strong collaboration skills - you work effectively across engineering, product, support, and sales teams 
+BS/MS in Computer Science or equivalent real-world experience
+Proven experience utilizing AI technologies to enhance decision-making, streamline 
+workflows and processes, improve efficiency and drive business outcomes.
+
+Bonus Points: 
+
+Experience with Active Directory, LDAP, or identity/access management domains
+Familiarity with graph-based computation models (DAGs, dependency resolution) 
+Background in migrating legacy systems to Go 
+Experience with risk scoring or entity resolution systems
+
+job 11
+
+What You’ll Be Doing
+
+Master our Time Synchronization Technology
+Define of hardware and system architectures
+Research and evaluate algorithms currently used in related applications
+Develop complex proof-of-concepts to demonstrate ideas
+Collaborate with software architects to define new features and robust SW-HW interfaces for diverse networking use cases.
+Drive standardization and interoperability to support broad industry adoption.
+
+What We Need To See
+
+M.Sc. or equivalent experience in Electrical Engineering or Computer Science from a leading university
+5+ years of experience in the industry, specifically in HW architecture groups
+Familiarity with networking concepts, terms, and Software stack
+Consistent record to quickly adapt to new technologies and investigate emerging areas
+Hand-on programming capabilities in VHDL,Python, C/C++
+Passion for problem-solving and algorithms research and development
+Strong capability to work independently, collaborate with multi-functional teams, and guide R&D efforts.
+Excellent communication and presentation skills.
+
+Ways To Stand Out From The Crowd
+
+Experience with IEEE 1588 PTP, Synchronous Ethernet, oscillators and clock control algorithms
+Experience in networking hardware and software architecture.
+An understanding of clocks and signal processing
+
+job 12
+
+Description
+Key Responsibilities
+Lead the technical vision, architecture, and roadmap for Agentic AI platforms and systems.
+Design and implement advanced Agentic AI capabilities, including planning, multi-agent collaboration, memory, RAG, tool use, evaluation, and observability.
+Translate enterprise needs into scalable, production-ready AI solutions.
+Evaluate emerging Agentic AI technologies and research and drive their integration into openJiuwen.
+Provide hands-on technical leadership, from architecture and prototyping to implementation and optimization.
+Represent openJiuwen globally and help grow its developer and enterprise ecosystem.
+
+
+Must Have
+Bachelor’s or Master’s degree in Computer Science, AI, Engineering, or a related field; Ph.D. is an advantage.
+8+ years of software engineering and AI experience, with hands-on expertise in LLMs, Generative AI, and Agentic AI.
+Recognized expertise and leadership in Agentic AI, with significant contributions to Agent platforms, frameworks, or enterprise AI solutions.
+Ability to combine technical vision with hands-on execution, from architecture and prototyping to production.
+Proven experience architecting, building, and scaling production-grade Agentic AI platforms and systems.
+Deep expertise in reasoning and planning, memory, RAG, tool use, context engineering, multi-agent systems, evaluation, and observability.
+Strong expertise in Python, software architecture, distributed systems, cloud, APIs, and AI infrastructure.
+Strong technical leadership, presentation, and communication skills, with the ability to influence technology direction and represent openJiuwen globally.
+
+
+Advantages
+Strong understanding of enterprise AI architecture, including reliability, security, scalability, performance, and cost efficiency.
+Experience with leading Agentic AI platforms, frameworks, and ecosystems, such as OpenAI Agents SDK, Claude ecosystem, OpenClaw, Hermes, or equivalent technologies.
+Experience leading or contributing to global open-source and developer communities.
+Demonstrated industry influence through conferences, publications, developer communities, enterprise engagements, research papers, patents, or advisory roles.
+Experience with Physical AI and embodied agent systems.
+
+job 13
+
+Position Overview-
+
+Lead AI/ML Infrastructure Engineer serving as the exclusive, standalone technical function in Israel within an elite, global ML Engineering and Data Science group, reporting directly to a Group Lead based in New York.
+Balancing a high-impact split between 60% Advanced AI, NLP, and LLM Research and 40% Production-Grade AI/ML Infrastructure Engineering.
+Architecture, training, and deploying advanced models using frameworks like PyTorch and TensorFlow, alongside designing enterprise-grade Retrieval-Augmented Generation (RAG) frameworks.
+Engineering robust MLOps pipelines from scratch, leveraging Python, CI/CD, Terraform, and Kubernetes to ensure hyper-scalable, low-latency model deployments across hybrid Cloud (AWS/GCP) and On-Premise environments.
+Establishing end-to-end observability, automated build/release pipelines, and high-throughput data processing workflows to support mission-critical, live algorithmic trading clusters.
+
+
+Requirements-
+
+Academic Background: M.Sc. or Ph.D. in Exact Sciences (Computer Science, Mathematics, Physics, or Data Science) strictly from a Top-Tier Research University – Mandatory
+3+ years of proven professional experience operating as an AI Engineer, ML Engineer, or Data Scientist within high-caliber production environments – Mandatory
+Expert-level, production-grade programming proficiency in Python – Mandatory
+Extensive, hands-on experience architectural deployment over containerized environments (Kubernetes) and orchestration pipelines – Mandatory
+Strong technical command of modern cloud infrastructure (AWS or GCP) – Significant Advantage
+Proven experience building enterprise RAG systems, LLM fine-tuning pipelines, or advanced NLP architectures – Significant Advantage
+
+job 14
+
+As a data scientist in Similarweb, you will work on the very core of the company. Part of your role will be to turn raw data into usable metrics and develop new models and statistical algorithms to support out-of-the box requests from customers who want custom digital insights.
+
+So, what will you be doing all day?
+
+Your Daily Responsibilities May Include
+
+Working on versatile use cases within a dynamic, fast paced production environment
+Strategic thinking and problem solving, with a strong business sense
+Analyzing data from various sources, and turning it into usable input
+Understanding various use cases from different customers, and creating models that can translate these cases into meaningful insights
+Initiating newly defined tasks from exploration to proof of concept
+Owning the finalization of defined tasks (from POC to deployment in production)
+Collaborating with data engineers to make sure we reach the desired production results
+Owning the ongoing validation process for existing metrics
+Collaborating and brainstorming best practices with other teams within the R&D department 
+Deploying machine-learning models into production for an ongoing use
+
+This Is The Perfect Job For Someone Who
+
+Holds a M.Sc in Computer Science/Mathematics/Physics or any other relevant field - Required
+Has 3+ years of experience with statistical and machine learning tools - Python, R, etc.
+Strong communicative and verbal abilities to lead and guide customers through the logic of custom-built models
+Has previous experience developing machine learning/ image processing/NLP or similar algorithms
+Demonstrated experience utilizing probability theory and statistics
+Experience with Big Data tools and cloud infrastructure; PySpark, AWS (big advantage)
+Strong analytical skills; experience analyzing and processing tabular data, and extracting insights (big advantage)
+
+job 15
+
+Responsibilities 
+
+Performance and experimentation
+
+Design and structure pilots across Google Ads and Meta, including campaign selection, budget approach, bidding strategy, and success criteria
+Evaluate experiment results and iterate based on performance signals
+Help customers understand performance drivers, attribution, and how to scale what works
+Monitor model and signal performance; identify issues early and intervene
+Implementation and signal quality
+
+Lead end-to-end implementation across a small portfolio of enterprise customers
+Adapt solution design and data strategy to each customer's ad tech stack and measurement setup
+Ensure strong match rates, data accuracy, and signal reliability across conversion APIs and MMPs
+Troubleshoot integration and data issues in collaboration with internal teams
+Customer partnership and execution
+
+Own day-to-day execution across multiple engagements
+Lead ongoing customer communication with both technical and senior growth stakeholders
+Coordinate across product, engineering, and go-to-market teams
+Build long-term trust through reliability and strong outcomes
+
+
+Requirements
+
+6+ years of experience in a technical, customer-facing role (e.g., Solutions Engineering, Technical Account Management, Growth Engineering)
+3+ years in a similar role working directly with enterprise customers
+Hands-on experience with Google Ads and Meta Ads, including campaign management, value-based bidding, and test analysis
+Deep familiarity with performance marketing metrics: CPA, ROAS, LTV, incrementally
+Background in performance marketing, user acquisition, or growth at a consumer app, brand, or agency
+Experience with conversion tracking and attribution infrastructure (e.g., Meta Conversions API, GA4, AppsFlyer or similar MMPs)
+Strong SQL skills and ability to independently analyze data (e.g., Snowflake, BigQuery)
+Ability to translate performance data into clear, actionable recommendations for growth teams
+Experience working in SaaS, adtech, martech, or performance marketing
+Strong communication skills and comfort engaging with senior growth and marketing leaders
+
+
+Preferred qualifications:
+Experience with server-side integrations and signal enrichment
+Familiarity with pLTV modeling or predictive bidding concepts
+Experience in a startup or high-growth environment
+
+job 16
+
+Core Contributions & Responsibilities
+
+Your focus will be on shipping high-quality product improvements, maintaining reliable systems, and steadily expanding your technical ownership:
+
+Feature Delivery: Own the end-to-end implementation, testing, deployment, and validation of product features, bug fixes, technical improvements, database migrations, and AI capabilities.
+Backend & Integrations: Build and maintain backend services and integrations with Shopify, WhatsApp Business API, and third-party platforms. Work with event-driven components including queues, webhooks, background jobs, asynchronous workflows, and external APIs.
+Code Quality & Reliability: Write clean, secure, maintainable, and production-ready code. Contribute to code reviews and automated testing, troubleshoot production issues, conduct root-cause analysis, and implement durable fixes.
+Collaboration & Ownership: Work closely with the Technical Co-Founder and cross-functional stakeholders to clarify requirements, technical approaches, and delivery expectations. Communicate progress, blockers, risks, and trade-offs proactively.
+Engineering Practices & AI: Contribute to stronger documentation, CI/CD, observability, testing, and knowledge sharing. Use generative AI tools such as GitHub Copilot and ChatGPT thoughtfully to accelerate development, debugging, testing, and documentation.
+
+
+Requirements & Candidate Profile
+
+
+Must Have
+
+2–4 years of professional software development experience, ideally in backend or full-stack roles.
+Strong experience with JavaScript/TypeScript, Node.js, and React.
+Solid software engineering fundamentals, including writing clean, maintainable, secure, and testable code.
+Hands-on experience with APIs, webhooks, databases, and third-party integrations.
+Experience troubleshooting production issues using logs and observability tools.
+Strong ownership mindset and clear, proactive communication in English.
+
+
+Nice to Have / Strongly Preferred
+
+Exposure to Shopify, e-commerce platforms, or messaging APIs.
+Working knowledge of AWS, MongoDB, and event-driven architectures.
+Background in WebSockets, real-time applications, Python/FastAPI, or AI-powered products.
+Startup or small-team experience with broad product and technical ownership.
+
+
+What Success Looks Like
+
+First 30 Days: Complete onboarding, build a strong working rhythm with the Technical Co-Founder, ship your first fixes or features, and develop a solid understanding of Dondy’s core Shopify and WhatsApp systems.
+First 90 Days: Independently deliver scoped features, contribute to code reviews, resolve production issues, and take ownership of defined product flows.
+First 180 Days: Operate as a trusted core contributor, own features end to end, improve system reliability, and begin contributing to technical design decisions.
+Year 1 & Beyond: Take ownership of key modules, propose meaningful technical improvements, support future team members, and demonstrate the scope, judgment, and impact expected for progression toward a Senior Software Engineer role.
+
+job 17
+
+When you join us, you will have:
+
+Continuous learning: Our learning and apprenticeship culture, backed by structured programs, is all about helping you grow while creating an environment where feedback is clear, actionable, and focused on your development. The real magic happens when you take the input from others to heart and embrace the fast-paced learning experience, owning your journey.
+A voice that matters: From day one, we value your ideas and contributions. You’ll make a tangible impact by offering innovative ideas and practical solutions. We not only encourage diverse perspectives, but they are critical in driving us toward the best possible outcomes.
+Global community: With colleagues across 65+ countries and over 100 different nationalities, our firm’s diversity fuels creativity and helps us come up with the best solutions for our clients. Plus, you’ll have the opportunity to learn from exceptional colleagues with diverse backgrounds and experiences.
+World-class benefits: On top of a competitive salary (based on your location, experience, and skills), we provide a comprehensive benefits package to enable holistic well-being for you and your family.
+
+Your Impact
+
+You will deploy, operate, and support EcliptOS — QuantumBlack's AI forward Operating System — a next-generation platform designed to connect strategy to execution through agentic systems.
+
+You will act as the key technical expert and focal point for the EcliptOSplatform, GPU environments, and AI-driven systems across complex client environments. Your primary focus is resolving full-stack client issues to ensure the successful operation of EcliptOS in production. You will troubleshoot technical challenges, execute platform upgrades, and support advanced MLOps pipelines — including Kubernetes-based environments, GPU infrastructure, and serverless AI workloads. By automating and simplifying these workflows, you will enable clients to streamline their AI journey from initial concept to full production.
+
+Your work will provide the robust platform foundations necessary for enterprises to deliver scalable analytics, accelerate AI adoption, and drive meaningful, lasting business impact.
+
+Based in Herzliya, you'll work closely with engineers, product teams, and technical experts across QuantumBlack, AI by McKinsey's global community. Beyond platform deployments, you'll collaborate with data scientists, machine learning engineers, designers, and technologists on interdisciplinary initiatives, contributing to a broader ecosystem of AI innovation. Together, you'll help operationalize EcliptOS and advanced AI systems across industries, driving successful delivery, validation, and adoption in client environments. You'll also contribute to team knowledge-sharing — documenting patterns, refining delivery practices, and supporting colleagues across engagements.
+
+You'll thrive in an unparalleled environment for growth. You'll develop a sought-after perspective by connecting technology and business value, work across industries, and collaborate with multidisciplinary teams to unlock the transformative potential of AI, while advancing as a technologist and leader.
+
+Your Qualifications and Skills
+
+Bachelor’s or master’s in computer science, machine learning, applied statistics, mathematics, engineering, artificial intelligence, or a related field or equivalent practical experience
+5+ years of experience in MLOps, infrastructure engineering, or technical operations for cloud-native or AI/ML platforms
+Experience working in client-facing, SLA-driven environments
+Strong debugging and problem-solving skills across infrastructure, orchestration, and application layers
+Hands-on experience with Kubernetes, including cluster operations, scheduling, networking, and Helm-based deployments
+Experience troubleshooting production distributed systems and containerized environments
+Familiarity with ML pipeline orchestration platforms such as Kubeflow Pipelines (KFP), Airflow, MLflow, MLRun, or equivalent
+Experience with serverless/FaaS platforms such as AWS Lambda, Knative, or Nuclio
+Working knowledge of object storage systems (S3, MinIO), Docker, container registries, and infrastructure operations
+Familiarity with GPU infrastructure and LLM serving frameworks such as vLLM, NVIDIA NIM, or Triton is a plus
+Strong communication skills, both in local language and English
+
+job 18
+
+What your job will look like:
+
+Own projects end-to-end—from concept, through research, prototyping, designing, training, and evaluating neural network architectures, to integration and scalable deployment.
+Process and analyze massive streams of crowd-sourced data to continuously improve model performance and resolve challenging edge cases in complex driving scenarios.
+Collaborate with algorithm developers, software engineers, product managers, and system teams across the organization.
+Work with large-scale datasets and real-world driving scenarios to improve model accuracy, robustness, and runtime efficiency.
+Bring your ideas into production-ready systems that have a direct, measurable impact on autonomous vehicle technologies used worldwide.
+
+All you need is:
+
+B.Sc. or M.Sc. in Computer Science, Electrical Engineering, or a related field, with strong academic performance.
+1+ years of hands-on experience developing deep learning solutions using Python and frameworks such as PyTorch.
+Solid foundation in Algorithms, Machine Learning, and Deep Learning fundamentals (Graph Neural Networks are an advantage).
+To be a strong team player who thrives in a collaborative environment and works effectively across different groups.
+Strong analytical skills and a profound sense of ownership.
+
+Nice to have:
+
+Experience leveraging AI agents and modern productivity tools in development workflows.
+Experience with cloud environments and big data tools.
+
+job 19
+
+Key Responsibilities
+
+Build and maintain weekly and monthly production work plans.
+Manage and track work orders and tasks through company systems.
+Monitor project progress and ensure adherence to project timelines and milestones.
+Identify bottlenecks, remove obstacles, and drive tasks to completion across multiple stakeholders.
+Work closely with suppliers and subcontractors.
+Coordinate and align activities between Production, Procurement, Engineering, and functional managers.
+Manage ongoing project status updates and proactively escalate risks, delays, and deviations.
+Lead process improvement initiatives, focusing on operational excellence, organization, and efficiency.
+
+
+Requirements
+
+Must Have
+
+Bachelor's degree required, preferably in Industrial Engineering & Management or Business Administration.
+Minimum of 3 years of experience in PMO, Project Management, or Project Operations roles.
+Strong organizational and planning skills with the ability to work independently.
+Proven ability to drive processes, manage multiple priorities, and maintain effective follow-up and control.
+Excellent interpersonal and communication skills, with experience working across multiple interfaces and stakeholders.
+Advantages
+
+Experience with work orders and manufacturing/production processes.
+Experience using project and task management tools such as Priority and/or Monday.com.
+Previous experience in defense industry companies.
+✈️ Industry: Aviation / Aerospace Startup
+If you're passionate about operations, project execution, and working in a dynamic, fast-growing aviation environment, we'd love to hear from you.
+
+job 20
+
+Job Description
+
+As a DevOps Engineer, you will own the infrastructure, build and deployment pipelines behind a complex cyber-security system. You will work closely with our architect and development team to make our environments reproducible, observable and reliable — from local development through to secured production environments.
+
+
+Your responsibilities will include:
+• Building and maintaining CI/CD pipelines, from commit to deployment.
+• Deploying and operating services on Kubernetes/OpenShift.
+• Containerizing applications and maintaining Helm charts.
+• Automating environment provisioning and managing infrastructure as code.
+• Building monitoring, logging and alerting (ELK, Prometheus, Grafana).
+• Maintaining and hardening Linux servers and internal environments.
+• Supporting the development team with build, deployment and environment issues.
+
+
+Requirements
+
+• B.Sc. in Computer Science / Software Engineering, or equivalent.
+• 1+ years of hands-on DevOps / infrastructure experience.
+• Strong Linux administration and troubleshooting skills.
+• Practical experience with Docker and Kubernetes (or OpenShift).
+• Building CI/CD pipelines (GitLab CI, Jenkins, GitHub Actions or similar).
+• Worked with Klocwork or similar
+• Scripting and automation in Bash and Python.
+• Infrastructure as code (Ansible, Terraform or similar).
+• Comfortable with Git workflows and working closely with developers.
+
+
+Advantages
+
+• OpenShift specifically, and authoring Helm charts.
+• Monitoring and logging stacks (ELK, Prometheus, Grafana).
+• On-premise, isolated or air-gapped environments.
+• Operating message queues and databases in production (Kafka, RabbitMQ, Redis, SQL).
+• Cloud platforms (AWS, GCP, Azure).
+• Networking fundamentals and system/security hardening.
+• Background or interest in cyber security.
+
+job 21
+
+Role Description
+
+Serving as a Generative AI / Video Diffusion Researcher, joining a tight-knit, elite research team advancing the state of the art in generative media.
+Conducting deep algorithmic research, design, and experimentation focused on Video Diffusion Models and continuous video synthesis pipelines.
+Developing novel neural architectures for temporal consistency, high-fidelity motion generation, conditioning mechanisms, and video stylization.
+Training, fine-tuning, and evaluating massive-scale generative models leveraging distributed multi-GPU computing environments.
+Translating cutting-edge academic literature and proprietary concepts into robust, deployable production algorithms.
+Collaborating closely with Core Engineering and Product teams to transition novel generative capabilities into live consumer and enterprise products.
+
+Requirements-
+Proven hands-on track record and specialized research experience with Video Diffusion Models – Mandatory
+Educational Background & Experience (one of the following paths) – Mandatory:
+Ph.D. in Computer Science, Electrical Engineering, Applied Mathematics, or a related field (with focus on Deep Learning / Computer Vision)
+M.Sc. in a relevant exact sciences/engineering domain + 3+ years of practical research experience
+B.Sc. in a relevant exact sciences/engineering domain + 6+ years of practical research experience
+Degree from a top-tier academic institution (Technion, Weizmann Institute, Tel Aviv University, Hebrew University, Ben-Gurion University, or Bar-Ilan University) – Mandatory
+Deep mathematical and practical understanding of deep learning frameworks (PyTorch), modern diffusion architectures, and temporal attention mechanisms – Mandatory
+Track record of publications in top-tier machine learning or computer vision conferences (e.g., CVPR, ICCV, ECCV, NeurIPS, SIGGRAPH) – Advantage
+Experience with large-scale distributed training on cloud/cluster infrastructure – Advantage
+
+job 22
+
+Your role
+
+We are seeking an experienced AI/ML Speech Algorithm Engineer to join our Audio AI team working on cutting-edge speech AI technologies for hearables. You will contribute across the full research-to-productization pipeline — from exploring novel architectures and proof-of-concept work, through productization and deployment on resource-constrained wearable devices. The work moves between two modes: deep research and POC when we're exploring what's possible, and disciplined productization when we're taking a proven approach to a shipping device. You will collaborate closely with AI research scientists, classical DSP algorithm engineers, embedded software engineers, and product teams to translate research outcomes into shipping product features.
+
+Main missions
+
+• Contribute to speech AI algorithms end to end — speech enhancement, acoustic feedback cancellation, beamforming, acoustic scene recognition — from architecture exploration through to a verified feature on a shipping device.
+• Design, train and evaluate deep learning architectures against hard real-time budgets: [target algorithmic latency, MIPS, low footprint on our embedded DSP/NPU]. Quantization, pruning, and other model optimization techniques for deployment are part of the design.
+• Build out our evaluation stack: objective and perceptual metrics, listening tests together with our audiology colleagues, and regression testing that tells us whether a model actually improved.
+• Generate and curate the data the models need — noise corpora, room impulse responses and acoustic simulation, multi-microphone and binaural recordings.
+• Contribute reusable training and testing infrastructure across tasks.
+
+Main Requirements
+
+• MSc or PhD in Electrical Engineering, Computer Science or a related STEM field, with real depth in deep learning and signal processing. A BSc with equivalent demonstrated depth works too.
+• 5+ years building audio or speech ML algorithms, including at least one algorithm you personally carried from research into a shipped product.
+• Hands-on model development and production experience in Python, with PyTorch or TensorFlow.
+• A track record of deploying models to real-time or embedded targets under latency, memory and compute constraints, and of iterating on the basis of measurements rather than intuition.
+
+Bonus points for us
+
+• Hearing-aid-class signal processing, or experience with hearables and wearable audio products.
+• End-to-end audio system understanding: transducers, microphones, audio ICs, acoustics, embedded DSPs and NPUs.
+• Familiarity with model optimization techniques — quantization-aware training, pruning, knowledge distillation, and other methods for compressing models without sacrificing performance.
+• Cloud-based training environments (GCP or equivalent) and experience with GPU cluster workflows.
+• Exposure to regulated or medical-device product development.
+• Publications or patents in speech, audio or applied deep learning.
+
+job 23
+
+As a Data Scientist at Meta, you will shape the future of people-facing and business-facing products we build across our entire family of applications (Facebook, Instagram, Messenger, WhatsApp, Oculus). By applying your technical skills, analytical mindset, and product intuition to one of the richest data sets in the world, you will help define the experiences we build for billions of people and hundreds of millions of businesses around the world. You will collaborate on a wide array of product and business problems with a wide-range of cross-functional partners across Product, Engineering, Research, Data Engineering, Marketing, Sales, Finance and others. You will use data and analysis to identify and solve product development's biggest challenges. You will influence product strategy and investment decisions with data, be focused on impact, and collaborate with other teams. By joining Meta, you will become part of an analytics community dedicated to skill development and career growth in analytics and beyond.
+
+Product leadership: You will use data to shape product development, quantify new opportunities, identify upcoming challenges, and ensure the products we build bring value to people, businesses, and Meta. You will help your partner teams prioritize what to build, set goals, and understand their product's ecosystem.
+
+Analytics: You will guide teams using data and insights. You will focus on developing hypotheses and employ a varied toolkit of rigorous analytical approaches, different methodologies, frameworks, and technical approaches to test them.
+
+Communication and influence: You won't simply present data, but tell data-driven stories. You will convince and influence your partners using clear insights and recommendations. You will build credibility through structure and clarity, and be a trusted strategic partner.
+
+This is a short term employment (STE) position.
+Data Scientist, Product Analytics STE 18 Month Contract Responsibilities
+Work with large and complex data sets to solve a wide array of challenging problems using different analytical and statistical approaches
+Apply technical expertise with quantitative analysis, experimentation, data mining, and the presentation of data to develop strategies for our products that serve billions of people and hundreds of millions of businesses
+Identify and measure success of product efforts through goal setting, forecasting, and monitoring of key product metrics to understand trends
+Define, understand, and test opportunities and levers to improve the product, and drive roadmaps through your insights and recommendations
+Partner with Product, Engineering, and cross-functional teams to inform, influence, support, and execute product strategy and investment decisions
+Minimum Qualifications
+Currently has, or is in the process of obtaining a Bachelor's degree in Computer Science, Computer Engineering, relevant technical field, or equivalent practical experience. Degree must be completed prior to joining Meta
+Bachelor's degree in Mathematics, Statistics, a relevant technical field, or equivalent
+2+ years of work experience in analytics and data querying languages (e.g. SQL), scripting languages (e.g. Python), and/or statistical/mathematical software (e.g. R)
+2+ years of experience solving analytical problems using quantitative approaches, understanding ecosystems, user behaviors & long-term product trends, and leading data-driven projects from definition to execution [including defining metrics, experiment design, and communicating actionable insights]
+Preferred Qualifications
+Demonstrated ability to integrate AI tools to optimize/redesign workflows and drive measurable impact (e.g., efficiency gains, quality improvements)
+Demonstrated ongoing AI skill development (e.g., prompt/context engineering, agent orchestration) and staying current with emerging AI technologies
+Experience adhering to and implementing responsible, ethical AI practices (e.g., risk assessment, bias mitigation, quality and accuracy reviews)
+Master's or Ph.D. Degree in a quantitative field
+
+job 24
+
+About the job
+We are now looking for a Senior security researcher. NVIDIA Networking product security team is looking for an outstanding technical security researcher with hands-on experience to help us improve the security posture of NVIDIA networking software. In this role you will help reduce risk, threats, and vulnerabilities in NVIDIA networking products.
+
+What You’ll Be Doing
+
+Be involved in offensive security researcher on a wide range of products.
+Assist with defining and making sure software development processes meet security and coding standards.
+Perform security threat modeling for NVIDIA Networking products.
+Design and make security architecture recommendations to satisfy security guidelines and requirements.
+Mentor teams and developers, promoting guidelines on the best security practices.
+Be a technical focal point across multiple development teams and provide hands-on security engineering expertise.
+
+What We Need To See
+
+Academic degree in computer science, electrical engineering, or related field or equivalent experience.
+Demonstrated experience of 3+ years in security research.
+Familiarity with applied cryptography, threat modeling, common attack vectors and mitigation techniques.
+Ability to work independently, and collaboratively in a constantly evolving environment.
+Excellent communication and interpersonal skills.
+
+Ways To Stand Out From The Crowd
+
+M.Sc. or PhD in computer science, electrical engineering, or related technical field.
+Familiarity with the cloud environment security ecosystem.
+Experience with high-scale deployment challenges.
+Demonstrated security research experience and publications.
+
+With highly competitive salaries and a comprehensive benefits package, NVIDIA is widely considered to be one of the technology world's most desirable employers. We have some of the most forward-thinking and hardworking people on the planet working for us and, due to unprecedented growth, our special engineering teams are growing fast. If you're a creative and autonomous engineer with a genuine passion for technology, we want to hear from you.
+
+job 25
+
+About the role:
+As a Decision Analyst at Forter, you will own one of the company’s most critical assets: the accuracy, robustness, and performance of what is widely recognized as the leading e-commerce fraud decisioning system in the industry.
+
+You will be expected to think creatively and push boundaries, constantly improving how we identify fraud and protect legitimate customers. You will design logical and technical solutions to real, constantly evolving challenges faced by some of the world’s largest online retailers. Your work will operate at the intersection of deep data research, real-time production decisioning systems, and real-world impact.
+
+This position has strong technical and analytical depth, but you don’t need prior coding experience. With agentic tools like Claude Code and our structured training, candidates that are a strong fit can close any technical gaps quickly. We hire across multiple levels and adjust the scope and level of ownership based on what we learn during the interview process.
+
+You will join Forter’s Decision Science and Analytics department, a high-bar, fast-moving group with a strong culture of excellence, curiosity, and ownership. We work in an informal, collaborative environment where strong opinions are welcome and great ideas move fast. The role offers meaningful growth opportunities, with clear paths toward both senior individual contributor and managerial roles, allowing you to shape your career based on your strengths.
+
+Your work will directly shape Forter’s product, protect hundreds of millions of consumers, and help define the future of trust in digital commerce.
+
+What you'll be doing:
+Invent, design, implement, and continuously refine the core decisioning logic and models that run in Forter’s live production systems
+Research complex fraud patterns, adversarial behaviors, and emerging threats
+Leverage rich and diverse datasets to generate actionable insights, build new system components, and advance feature engineering efforts
+Use agentic tools such as Claude Code to develop automatic tools and processes that improve the accuracy, scalability, and efficiency of our systems
+Collaborate closely with Engineers, Product Managers, and business stakeholders to build the next generation of Forter’s AI-driven technology
+What you'll need:
+Psychometric score above 700 or equivalent (e.g. GMAT) - we use this as a baseline measure of structured reasoning and analytical speed
+A record of high achievement, in whatever form that's taken in your life - academic, professional, military, or otherwise
+Strong analytical and logical reasoning skills, with a proven ability to break down and solve highly complex problems
+Strong technical orientation. Experience with Python, SQL, or R is an advantage but not required. You should be comfortable learning new tools and technologies
+Excellent communication skills, with the ability to clearly explain complex technical ideas and research outcomes to a wide range of audiences
+Natural curiosity and the ability to understand systemic behaviors and adversarial tactics
+Proactive and results-driven mindset, with the ability to work independently within a collaborative team
+Experience building things with AI: agentic workflows, apps, automations. Bring an example you built and can walk us through. You should be enthusiastic about and comfortable with agentic tools.
+Bonus points for:
+Experience with SQL or Python
+Familiarity with machine learning concepts
+Background in risk analysis, intelligence, or adversarial research
+
+job 26
+
+Company Overview
+
+KLA is a global leader in diversified electronics for the semiconductor manufacturing ecosystem. Virtually every electronic device in the world is produced using our technologies. No laptop, smartphone, wearable device, voice-controlled gadget, flexible screen, VR device or smart car would have made it into your hands without us. KLA invents systems and solutions for the manufacturing of wafers and reticles, integrated circuits, packaging, printed circuit boards and flat panel displays.  The innovative ideas and devices that are advancing humanity all begin with inspiration, research and development. KLA focuses more than average on innovation and we invest 15% of sales back into R&D. Our expert teams of physicists, engineers, data scientists and problem-solvers work together with the world’s leading technology providers to accelerate the delivery of tomorrow’s electronic devices. Life here is exciting and our teams thrive on tackling really hard problems. There is never a dull moment with us.
+Group/Division
+
+With over 40 years of semiconductor process control experience, chipmakers around the globe rely on KLA to ensure that their fabs ramp next-generation devices to volume production quickly and cost-effectively. Enabling the movement towards advanced chip design, KLA's Global Products Group (GPG), which is responsible for creating all of KLA’s metrology and inspection products, is looking for the best and the brightest research scientist, software engineers, application development engineers, and senior product technology process engineers.  The Optical Metrology Division products are used for optical overlay metrology. The portfolio of products includes unique solution packages which are based on hardware and software systems to enhance yield and effectiveness. As a world leader in its field of expertise, the division's products are the most advanced in performance (measurement accuracy of nanometers and below), reliability, ease of use and compatibility with other KLA's products.  KLA (Israel) controls over 80% of the world market sales in its field, and its products are used by every major semiconductor manufacturer around the world.  KLA Israel is located in the Migdal Haemek Industrial Park.
+Job Description/Preferred Qualifications
+
+Mandatory:
+
+software design skills (scalable, maintainable, modular systems)
+Proven experience in large, multidisciplinary systems with multiple stakeholders
+Deep understanding of OOP principles and Operating Systems concepts (threads, synchronization, memory, IPC)
+Proficiency in C++ or C#
+hands-on experience working in Linux environments
+Advantages:
+
+Experience working close to hardware
+Background in real-time (RT) systems
+Strong multithreading and concurrency experience
+System integration and debugging of complex, cross-component issues
+Additional qualities (preferred):
+
+Strong collaboration and communication skills
+Ability to drive technical decisions across teams
+Experience with modern development practices (code reviews, testing, CI/CD)
+Minimum Qualifications
+
+minimum of 5 years of related experience with a Bachelor’s degree; or 3 years and a Master’s degree; or equivalent work experience
+
+We offer a competitive, family friendly total rewards package. We design our programs to reflect our commitment to an inclusive environment, while ensuring we provide benefits that meet the diverse needs of our employees. 

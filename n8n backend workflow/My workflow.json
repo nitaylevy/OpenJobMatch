@@ -1,0 +1,430 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "github-image-trigger",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        -256
+      ],
+      "id": "196de8e1-e35c-4a7b-8e42-e45092be0180",
+      "name": "CV Scan Webhook",
+      "webhookId": "24315db5-6b54-4991-b7de-5630dcb0569b"
+    },
+    {
+      "parameters": {
+        "function": "arn:aws:lambda:eu-west-1:123456789012:function:resume-parser-api",
+        "payload": "{   \"imageBase64\": {{ JSON.stringify($json.body.imageBase64) }} }"
+      },
+      "type": "n8n-nodes-base.awsLambda",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -256
+      ],
+      "id": "0110be41-2ef5-4296-acbe-5a20f5045221",
+      "name": "AWS Lambda",
+      "credentials": {
+        "aws": {
+          "id": "QNJuExqNWlgkYfiS",
+          "name": "AWS (IAM) account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        432,
+        -256
+      ],
+      "id": "e168b0ce-4809-47df-95fb-fe2fb29d9045",
+      "name": "Return CV as Organized JSON"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -16,
+        -32
+      ],
+      "id": "0aa88361-0dfc-4410-855b-3835341c3cbc",
+      "name": "New Jobs Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Loop over input items and add a new field called 'my_new_field' to the JSON of each one\nfor item in _items:\n  item[\"json\"][\"my_new_field\"] = 1\nreturn _items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        -32
+      ],
+      "id": "62147484-6a35-43d4-ad33-be72f6239a92",
+      "name": "Extract Greenhouse Published Jobs"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Loop over input items and add a new field called 'my_new_field' to the JSON of each one\nfor item in _items:\n  item[\"json\"][\"my_new_field\"] = 1\nreturn _items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        160
+      ],
+      "id": "6951939e-b6b5-476e-adf4-ad384f0c0ab6",
+      "name": "Extract Comeet Published Jobs"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        448,
+        -16
+      ],
+      "id": "3461ea79-82b3-4a91-ac87-58fee1674923",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.5,
+      "position": [
+        672,
+        -16
+      ],
+      "id": "8649dad2-5dba-4302-9d96-456180d8d16e",
+      "name": "Update Job Posts Table"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "github-jobs-trigger",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        336
+      ],
+      "id": "0c4a5621-bd25-4e97-82ee-8f791d40de5e",
+      "name": "Get Top K Matching Jobs ",
+      "webhookId": "24315db5-6b54-4991-b7de-5630dcb0569b"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.5,
+      "position": [
+        208,
+        336
+      ],
+      "id": "126faba7-94c1-464b-9676-77b3f3892d1d",
+      "name": "Find Filtered Job Posts"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Loop over input items and add a new field called 'my_new_field' to the JSON of each one\nfor item in _items:\n  item[\"json\"][\"my_new_field\"] = 1\nreturn _items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        432,
+        336
+      ],
+      "id": "fc6f49f4-aa02-4143-abfb-953aa86dee1c",
+      "name": "Scores & Sort"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.5,
+      "position": [
+        656,
+        336
+      ],
+      "id": "adeb940a-5419-46f9-80b8-d595c9d3240c",
+      "name": "Update Personal Scores"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        880,
+        336
+      ],
+      "id": "6584071c-d0cc-4b31-9cbb-8ebdf74f0bcd",
+      "name": "Return Top K Jobs With Scores "
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.5,
+      "position": [
+        208,
+        528
+      ],
+      "id": "5527882c-8bda-4567-99e4-2873fc27283a",
+      "name": "Fetch Last Hour's Jobs"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "# Loop over input items and add a new field called 'my_new_field' to the JSON of each one\nfor item in _items:\n  item[\"json\"][\"my_new_field\"] = 1\nreturn _items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        432,
+        528
+      ],
+      "id": "05d08f85-83b8-4eee-b96c-2dfb62e9c842",
+      "name": "Format HTML Table"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        528
+      ],
+      "id": "fdf6f910-34c0-45be-a230-121cc39343d8",
+      "name": "Send a message",
+      "webhookId": "5af86724-d976-46e5-906d-a7a265c0534d"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -32,
+        528
+      ],
+      "id": "bf146efe-9615-44c4-a041-805e9fd4039e",
+      "name": "Notification Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "CV Scan Webhook": {
+      "main": [
+        [
+          {
+            "node": "AWS Lambda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AWS Lambda": {
+      "main": [
+        [
+          {
+            "node": "Return CV as Organized JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Jobs Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract Greenhouse Published Jobs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract Comeet Published Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Greenhouse Published Jobs": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Comeet Published Jobs": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Update Job Posts Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Top K Matching Jobs ": {
+      "main": [
+        [
+          {
+            "node": "Find Filtered Job Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Filtered Job Posts": {
+      "main": [
+        [
+          {
+            "node": "Scores & Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scores & Sort": {
+      "main": [
+        [
+          {
+            "node": "Update Personal Scores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Personal Scores": {
+      "main": [
+        [
+          {
+            "node": "Return Top K Jobs With Scores ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Job Posts Table": {
+      "main": [
+        []
+      ]
+    },
+    "Fetch Last Hour's Jobs": {
+      "main": [
+        [
+          {
+            "node": "Format HTML Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format HTML Table": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notification Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Last Hour's Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3785ffa9-2ff4-439b-886d-77a0b2e8952c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7ca0c4291d1577037a0caaa94952c0550b16709fb5e2236dd96c3747c332d3f8"
+  },
+  "nodeGroups": [],
+  "id": "d2pthPunfReiT7ZY",
+  "tags": []
+}
