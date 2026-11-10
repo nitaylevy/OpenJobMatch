@@ -21,12 +21,12 @@ This repository documents the entire build, including:
 
 ## Official Page
 
-[https://openjobmatch.dev](https://openjobmatch.dev) - Check out demo!
+[https://nitaylevy.github.io/OpenJobMatch/](https://nitaylevy.github.io/OpenJobMatch/) - Check out demo!
 
 ## Features
 
 ### 1. Search By Resume
-- **Resume Parsing:** Upload a candidate resume (PDF or Image) to automatically extract and pre-fill search criteria.
+- **Resume Parsing:** Upload a candidate resume (PDF or Image) to extract and pre-fill search criteria automatically.
 - **Custom Search Criteria:** Define target job titles, years of experience required, seniority levels, and employment types.
 - **Resume Profile Management:** Add and edit job experience, technical skills, soft skills, and educational background.
 - **Saved Searches:** Save multiple profile presets (e.g., "Frontend Developer Profile", "Data Scientist Profile") and quickly switch between them using the sidebar drawer.
