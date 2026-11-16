@@ -13,8 +13,10 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "None",
-    "Min Experience Years 1": "3+ years [Quote: \"3+ years of hands-on experience in data engineering, backend engineering, or a similar field\"]",
-    "Min Experience Years 2": "2+ years [Quote: \"2+ years of practical experience with Python, Spark, and PySpark\"]",
+    "Min Experience Years": [
+      "3+ years [Quote: \"3+ years of hands-on experience in data engineering, backend engineering, or a similar field\"]",
+      "2+ years [Quote: \"2+ years of practical experience with Python, Spark, and PySpark\"]"
+    ],
     "Soft Skills": [
       "Collaboration [Quote: \"Strong collaborator and independent contributor.\"]",
       "Communication & Presentation [Quote: \"with excellent communication skills.\"]",
@@ -24,10 +26,8 @@
       "[ETL [Quote: \"building ETL processes\"]]",
       "[Pub/Sub [Quote: \"working with big-data technologies such as Pub/Sub\"]]",
       "[Terraform [Quote: \"Familiarity with Terraform\"]]",
-      "[CI/CD [Quote: \"Familiarity with CI/CD methodologies\"]]",
       "[Data Pipelines [Quote: \"Experience building or operating data pipelines\"]]",
-      "[SaaS [Quote: \"data pipelines in a SaaS production cloud environment\"]]",
-      "[Cloud Environment [Quote: \"data pipelines in a SaaS production cloud environment\"]]",
+      "[SaaS [Quote: \"SaaS production cloud environment\"]]",
       "[AI [Quote: \"uses AI effectively\"]]"
     ],
     "Advantage - Degree Types": "None [Quote: \"None\"]",
@@ -36,7 +36,7 @@
     "Advantage - University Only": "No [Quote: \"None\"]",
     "Advantage - Remaining Studies": "None [Quote: \"None\"]",
     "Advantage - Grade": "None [Quote: \"None\"]",
-    "Advantage - Soft Skills": "None",
+    "Advantage - Soft Skills": [],
     "Advantage - Hard Skills": [
       "[C/C# [Quote: \"Experience with C/C#\"]]",
       "[Google Cloud Platform [Quote: \"Familiarity with Google Cloud Platform\"]]"
@@ -56,19 +56,21 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "None",
-    "Min Experience Years 1": "3 years [Quote: \"At least 3 years of experience managing a Data Engineering team.\"]",
-    "Soft Skills": "None",
+    "Min Experience Years": [
+      "3 years [Quote: \"At least 3 years of experience managing a Data Engineering team.\"]"
+    ],
+    "Soft Skills": [],
     "Hard Skills": [
-      "[ETL Processes [Quote: \"developing ETL processes in a Data Warehouse (DWH) environment.\"]]",
-      "[Dataform [Quote: \"developing with Dataform, including Incremental Tables, SQLX, JavaScript, Dependencies, Tags, and postOps.\"]]",
+      "[Dataform [Quote: \"Experience developing with Dataform, including Incremental Tables, SQLX, JavaScript, Dependencies, Tags, and postOps.\"]]",
       "[SQL [Quote: \"Strong proficiency in SQL.\"]]",
       "[BigQuery [Quote: \"In-depth knowledge of BigQuery architecture and functionality.\"]]",
       "[Git [Quote: \"Experience working with Git and managing development workflows.\"]]",
       "[GCP [Quote: \"Experience working in a GCP cloud environment.\"]]",
-      "[Data Vault Methodology [Quote: \"In-depth understanding of the Data Vault methodology, including Hubs, Links, Satellites, Effectivity Satellites, Hash Keys, Hashdiff, and Load Date Timestamps.\"]]",
+      "[Data Vault [Quote: \"In-depth understanding of the Data Vault methodology, including Hubs, Links, Satellites, Effectivity Satellites, Hash Keys, Hashdiff, and Load Date Timestamps.\"]]",
       "[Python [Quote: \"Ability to write Python scripts for automation, testing, and data analysis.\"]]"
     ],
-    "Advantage - Soft Skills": "None"
+    "Advantage - Soft Skills": [],
+    "Advantage - Hard Skills": []
   },
   {
     "job_title": "Software Engineer",
@@ -83,8 +85,10 @@
     "University Only": "No [Quote: \"None\"]",
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
-    "Availability": "None",
-    "Min Experience Years 1": "1+ years [Quote: \"1+ year of professional experience in Data Engineering / Data Development\"]",
+    "Availability": "[\"None\"]",
+    "Min Experience Years": [
+      "1+ years [Quote: \"1+ year of professional experience in Data Engineering / Data Development\"]"
+    ],
     "Soft Skills": [
       "Problem-solving [Quote: \"Strong analytical and problem-solving skills.\"]",
       "Teamwork [Quote: \"Strong communication skills and ability to work independently and as part of a team.\"]",
@@ -95,11 +99,8 @@
       "[Python [Quote: \"Experience with Python and/or Shell scripting.\"]]",
       "[Shell Scripting [Quote: \"Experience with Python and/or Shell scripting.\"]]",
       "[Spark [Quote: \"Experience working with AWS cloud environments – preferably S3, EC2, EMR/Spark, Redshift, Athena or similar.\"]]",
-      "[Data Processing [Quote: \"Experience with Spark and data processing.\"]]",
       "[Data Modeling [Quote: \"Understanding of data modeling / Entity Relationship Modeling.\"]]",
-      "[Entity Relationship Modeling [Quote: \"Understanding of data modeling / Entity Relationship Modeling.\"]]",
       "[ETL [Quote: \"Hands-on experience building or maintaining ETL / data pipelines.\"]]",
-      "[Data Pipelines [Quote: \"Hands-on experience building or maintaining ETL / data pipelines.\"]]",
       "[AWS [Quote: \"Experience working with AWS cloud environments – preferably S3, EC2, EMR/Spark, Redshift, Athena or similar.\"]]",
       "[S3 [Quote: \"Experience working with AWS cloud environments – preferably S3, EC2, EMR/Spark, Redshift, Athena or similar.\"]]",
       "[EC2 [Quote: \"Experience working with AWS cloud environments – preferably S3, EC2, EMR/Spark, Redshift, Athena or similar.\"]]",
@@ -108,22 +109,20 @@
       "[Athena [Quote: \"Experience working with AWS cloud environments – preferably S3, EC2, EMR/Spark, Redshift, Athena or similar.\"]]",
       "[Splunk [Quote: \"Familiarity with logging and monitoring tools such as Splunk or Grafana.\"]]",
       "[Grafana [Quote: \"Familiarity with logging and monitoring tools such as Splunk or Grafana.\"]]",
-      "[AI Development Tools [Quote: \"Hands-on experience with AI development tools, such as Claude, Cursor or similar agentic development environments.\"]]",
       "[Claude [Quote: \"Hands-on experience with AI development tools, such as Claude, Cursor or similar agentic development environments.\"]]",
       "[Cursor [Quote: \"Hands-on experience with AI development tools, such as Claude, Cursor or similar agentic development environments.\"]]",
       "[Agentic Development Environments [Quote: \"Hands-on experience with AI development tools, such as Claude, Cursor or similar agentic development environments.\"]]",
       "[Agentic Workflows [Quote: \"Experience with agentic workflows, AI agents, skills or plugins.\"]]",
       "[AI Agents [Quote: \"Experience with agentic workflows, AI agents, skills or plugins.\"]]",
-      "[Skills [Quote: \"Experience with agentic workflows, AI agents, skills or plugins.\"]]",
-      "[Plugins [Quote: \"Experience with agentic workflows, AI agents, skills or plugins.\"]]",
       "[Data Science [Quote: \"Knowledge of Data Science / Machine Learning.\"]]",
       "[Machine Learning [Quote: \"Knowledge of Data Science / Machine Learning.\"]]",
-      "[NoSQL Databases [Quote: \"Experience with NoSQL databases such as DynamoDB or Cassandra.\"]]",
+      "[NoSQL [Quote: \"Experience with NoSQL databases such as DynamoDB or Cassandra.\"]]",
       "[DynamoDB [Quote: \"Experience with NoSQL databases such as DynamoDB or Cassandra.\"]]",
       "[Cassandra [Quote: \"Experience with NoSQL databases such as DynamoDB or Cassandra.\"]]",
       "[Scala [Quote: \"Knowledge of Scala or Java.\"]]",
       "[Java [Quote: \"Knowledge of Scala or Java.\"]]",
-      "[Streaming Data Processing [Quote: \"Experience with streaming or near real-time data processing]"
+      "[processing. [Quote: \"Experience with streaming or near real-time data processing.\"]]",
+      "[Graph Databases [Quote: \"Familiarity with graph databases.\"]]"
     ],
     "Advantage - Degree Types": "None [Quote: \"None\"]",
     "Advantage - Degree Names": "None [Quote: \"None\"]",
@@ -131,7 +130,8 @@
     "Advantage - University Only": "No [Quote: \"None\"]",
     "Advantage - Remaining Studies": "None [Quote: \"None\"]",
     "Advantage - Grade": "None [Quote: \"None\"]",
-    "Advantage - Soft Skills": "None"
+    "Advantage - Soft Skills": [],
+    "Advantage - Hard Skills": []
   },
   {
     "job_title": "Data Engineer",
@@ -147,7 +147,9 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "None",
-    "Min Experience Years 1": "3 years [Quote: \"3 years of hands-on experience in Data Engineering or ML Data roles – Mandatory\"]",
+    "Min Experience Years": [
+      "3 years [Quote: \"3 years of hands-on experience in Data Engineering or ML Data roles – Mandatory\"]"
+    ],
     "Soft Skills": [
       "Problem-solving [Quote: \"Strong analytical mindset, proactive problem-solving abilities, and fluent professional communication in English (written and verbal) – Mandatory.\"]",
       "Communication & Presentation [Quote: \"Strong analytical mindset, proactive problem-solving abilities, and fluent professional communication in English (written and verbal) – Mandatory.\"]"
@@ -160,14 +162,15 @@
       "[Pillow [Quote: \"Pillow\"]]",
       "[Librosa [Quote: \"Librosa\"]]",
       "[Data Scraping [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
-      "[extraction [Quote: \"data scraping, extraction\"]]",
-      "[filtering [Quote: \"data scraping, extraction, filtering\"]]",
-      "[Dataset Curation [Quote: \"systematic dataset curation\"]]",
-      "[Structured Dataset Versioning [Quote: \"managing structured dataset versioning\"]]",
-      "[Large-Scale Storage [Quote: \"large-scale storage\"]]",
-      "[Lifecycle Management [Quote: \"large-scale storage, and lifecycle management\"]]"
+      "[extraction, [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
+      "[filtering, [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
+      "[Dataset Curation [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
+      "[Structured Dataset Versioning [Quote: \"Demonstrated track record managing structured dataset versioning, large-scale storage, and lifecycle management\"]]",
+      "[Large-Scale Storage [Quote: \"Demonstrated track record managing structured dataset versioning, large-scale storage, and lifecycle management\"]]",
+      "[Lifecycle Management [Quote: \"Demonstrated track record managing structured dataset versioning, large-scale storage, and lifecycle management\"]]"
     ],
-    "Advantage - Soft Skills": "None"
+    "Advantage - Soft Skills": [],
+    "Advantage - Hard Skills": []
   },
   {
     "job_title": "Java Software Engineer",
@@ -183,14 +186,16 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "None",
-    "Min Experience Years 1": "5 years [Quote: \"5 years of hands-on software development experience with JVM languages (Java / Scala / Kotlin) – Mandatory\"]",
+    "Min Experience Years": [
+      "5 years [Quote: \"5 years of hands-on software development experience with JVM languages (Java / Scala / Kotlin) – Mandatory\"]"
+    ],
     "Soft Skills": [
       "Problem-solving [Quote: \"High technical ownership, strong analytical problem-solving abilities, and fluent communication in English (written and verbal) – Mandatory.\"]",
       "Communication & Presentation [Quote: \"High technical ownership, strong analytical problem-solving abilities, and fluent communication in English (written and verbal) – Mandatory.\"]"
     ],
     "Hard Skills": [
-      "[Data Processing Systems [Quote: \"building production data processing systems\"]]",
-      "[Kafka [Quote: \"with Kafka\"]]",
+      "[Data Processing Systems [Quote: \"Proven, deep hands-on expertise building production data processing systems with Kafka, Apache Spark, Apache Flink, or ClickHouse – Mandatory\"]]",
+      "[Kafka [Quote: \"Kafka\"]]",
       "[Apache Spark [Quote: \"Apache Spark\"]]",
       "[Apache Flink [Quote: \"Apache Flink\"]]",
       "[ClickHouse [Quote: \"ClickHouse\"]]",
@@ -200,7 +205,8 @@
       "[Distributed Systems [Quote: \"Distributed Systems\"]]",
       "[Cloud Microservices [Quote: \"cloud microservices\"]]"
     ],
-    "Advantage - Soft Skills": "None"
+    "Advantage - Soft Skills": [],
+    "Advantage - Hard Skills": []
   },
   {
     "job_title": "Junior Developer, Data & AI",
@@ -216,15 +222,14 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "None",
-    "Min Experience Years": "None",
-    "Soft Skills": "Communication & Presentation [Quote: \"presented your findings to the team.\"]",
+    "Min Experience Years": [],
+    "Soft Skills": [
+      "Communication & Presentation [Quote: \"presented your findings to the team.\"]"
+    ],
     "Hard Skills": [
       "[SQL [Quote: \"and enjoy SQL\"]]",
-      "[Machine Learning [Quote: \"ML\"]]",
-      "[statistics [Quote: \"Understand the math behind ML and statistics\"]]",
       "[Python [Quote: \"Write Python comfortably\"]]",
-      "[Data Analysis [Quote: \"Get a little obsessed when two numbers don’t match\"]]",
-      "[writing [Quote: \"Like explaining your reasoning in writing\"]]"
+      "[Statistics [Quote: \"Understand the math behind ML and statistics\"]]"
     ],
     "Advantage - Degree Types": "None [Quote: \"None\"]",
     "Advantage - Degree Names": "None [Quote: \"None\"]",
@@ -232,18 +237,9 @@
     "Advantage - University Only": "No [Quote: \"None\"]",
     "Advantage - Remaining Studies": "None [Quote: \"None\"]",
     "Advantage - Grade": "None [Quote: \"None\"]",
-    "Advantage - Soft Skills": "None",
+    "Advantage - Soft Skills": [],
     "Advantage - Hard Skills": [
-      "[Data Build Tool (dbt) [Quote: \"dbt\"]]",
-      "[Data Orchestration (Dagster) [Quote: \"Dagster\"]]",
-      "[Data Orchestration (Airflow) [Quote: \"Airflow\"]]",
-      "[Data Modeling [Quote: \"Cube\"]]",
-      "[Data Visualization (Superset) [Quote: \"Superset\"]]",
-      "[Data Visualization (Tableau) [Quote: \"Tableau\"]]",
-      "[Large Language Model APIs [Quote: \"LLM APIs\"]]",
-      "[Analytical Databases (Vertica) [Quote: \"analytical databases (Vertica)\"]]",
-      "[Analytical Databases (BigQuery) [Quote: \"analytical databases (BigQuery)\"]]",
-      "[Analytical Databases (Snowflake) [Quote: \"analytical databases (Snowflake)\"]]"
+      "[Analytical Databases [Quote: \"analytical databases\"]]"
     ]
   },
   {
@@ -260,7 +256,9 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "None",
-    "Min Experience Years 1": "3+ years [Quote: \"3+ years of experience in a DevOps, Cloud, or Site Reliability (SRE) role.\"]",
+    "Min Experience Years": [
+      "3+ years [Quote: \"3+ years of experience in a DevOps, Cloud, or Site Reliability (SRE) role.\"]"
+    ],
     "Soft Skills": [
       "Communication & Presentation [Quote: \"Excellent verbal and written communication skills in English.\"]",
       "Language Proficiency [Quote: \"Excellent verbal and written communication skills in English.\"]"
@@ -288,7 +286,8 @@
       "[Security [Quote: \"Good understanding of networking, security principles, and system administration.\"]]",
       "[System Administration [Quote: \"Good understanding of networking, security principles, and system administration.\"]]"
     ],
-    "Advantage - Soft Skills": "None"
+    "Advantage - Soft Skills": [],
+    "Advantage - Hard Skills": []
   },
   {
     "job_title": "Platform DevOps Engineer",
@@ -304,27 +303,19 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "[\"Experience with on-call, incident response, incident analysis, and improving Production-system reliability.\"]",
-    "Min Experience Years 1": "3+ years [Quote: \"At least 3 years of hands-on experience in DevOps or Platform roles.\"]",
-    "Soft Skills": "None",
+    "Min Experience Years": [
+      "3+ years [Quote: \"At least 3 years of hands-on experience in DevOps or Platform roles.\"]"
+    ],
+    "Soft Skills": [],
     "Hard Skills": [
       "[SaaS [Quote: \"Proven experience in a SaaS company, including ownership of Production systems.\"]]",
       "[DevOps [Quote: \"Experience as a sole DevOps engineer, technical lead, or in a role with broad ownership of product infrastructure.\"]]",
       "[Cloud-Native Infrastructure [Quote: \"Hands-on experience building and maintaining cloud-native infrastructure in a public cloud environment.\"]]",
       "[Kubernetes [Quote: \"Significant experience with Kubernetes\"]]",
-      "[Docker [Quote: \"Significant experience with Docker\"]]",
-      "[Helm [Quote: \"Significant experience with Helm\"]]",
-      "[Terraform [Quote: \"Significant experience with Terraform\"]]",
       "[CI/CD [Quote: \"Experience with CI/CD\"]]",
-      "[GitHub Actions [Quote: \"Experience with GitHub Actions\"]]",
-      "[GitOps [Quote: \"Experience with GitOps\"]]",
-      "[Argo CD [Quote: \"Experience with Argo CD\"]]",
       "[Prometheus [Quote: \"Experience with Prometheus\"]]",
-      "[Observability [Quote: \"Experience with observability\"]]",
-      "[Monitoring [Quote: \"Experience with monitoring\"]]",
-      "[Alerting Systems [Quote: \"Experience with alerting systems\"]]",
       "[Scripting [Quote: \"Strong scripting skills\"]]",
-      "[Hebrew [Quote: \"High proficiency in Hebrew\"]]",
-      "[English [Quote: \"High proficiency in English\"]]"
+      "[Hebrew [Quote: \"High proficiency in Hebrew\"]]"
     ],
     "Advantage - Degree Types": "None [Quote: \"None\"]",
     "Advantage - Degree Names": "None [Quote: \"None\"]",
@@ -332,7 +323,9 @@
     "Advantage - University Only": "No [Quote: \"None\"]",
     "Advantage - Remaining Studies": "None [Quote: \"None\"]",
     "Advantage - Grade": "None [Quote: \"None\"]",
-    "Advantage - Soft Skills": "Mentorship & Leadership [Quote: \"Experience managing or mentoring DevOps / Platform Engineering professionals.\"]",
+    "Advantage - Soft Skills": [
+      "Mentorship & Leadership [Quote: \"Experience managing or mentoring DevOps / Platform Engineering professionals.\"]"
+    ],
     "Advantage - Hard Skills": [
       "[Azure [Quote: \"Experience with Azure.\"]]",
       "[infrastructure [Quote: \"Experience building and scaling Production infrastructure from the ground up\"]]",
@@ -340,13 +333,14 @@
       "[AI [Quote: \"Experience with AI products, LLM workloads, or Voice / Conversational AI systems.\"]]",
       "[LLM [Quote: \"Experience with AI products, LLM workloads, or Voice / Conversational AI systems.\"]]",
       "[Voice [Quote: \"Experience with AI products, LLM workloads, or Voice / Conversational AI systems.\"]]",
+      "[Conversational AI [Quote: \"Experience with AI products, LLM workloads, or Voice / Conversational AI systems.\"]]",
       "[Cloud Security [Quote: \"Experience with cloud security, IAM, secrets management, and infrastructure hardening.\"]]",
       "[IAM [Quote: \"Experience with cloud security, IAM, secrets management, and infrastructure hardening.\"]]",
       "[Secrets Management [Quote: \"Experience with cloud security, IAM, secrets management, and infrastructure hardening.\"]]",
       "[Infrastructure Hardening [Quote: \"Experience with cloud security, IAM, secrets management, and infrastructure hardening.\"]]",
       "[Cloud Cost Optimization [Quote: \"Experience with cloud cost optimization and efficient resource management.\"]]",
       "[Resource Management [Quote: \"Experience with cloud cost optimization and efficient resource management.\"]]",
-      "[Code Assistance [Quote: \"Experience using AI-powered code assistance or development tools.\"]]",
+      "[AI-powered code assistance [Quote: \"Experience using AI-powered code assistance or development tools.\"]]",
       "[Development Tools [Quote: \"Experience using AI-powered code assistance or development tools.\"]]"
     ]
   },
@@ -364,11 +358,15 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "[\"A strong emphasis on work-life balance\"]",
-    "Min Experience Years 1": "4 years [Quote: \"4 years of experience as a DevOps Engineer\"]",
-    "Soft Skills": "Problem-solving [Quote: \"Independent, autodidact, creative problem solver with excellent debugging skills.\"]",
+    "Min Experience Years": [
+      "4 years [Quote: \"4 years of experience as a DevOps Engineer\"]"
+    ],
+    "Soft Skills": [
+      "Problem-solving [Quote: \"Independent, autodidact, creative problem solver with excellent debugging skills.\"]"
+    ],
     "Hard Skills": [
       "[Python [Quote: \"writing code with Python\"]]",
-      "[Bash [Quote: \"writing code with Bash\"]]",
+      "[Bash [Quote: \"Bash\"]]",
       "[AWS [Quote: \"Strong hands-on experience with AWS\"]]",
       "[CI/CD [Quote: \"Proficient in modern CI/CD techniques\"]]",
       "[GitOps [Quote: \"GitOps\"]]",
@@ -383,12 +381,8 @@
     "Advantage - University Only": "No [Quote: \"None\"]",
     "Advantage - Remaining Studies": "None [Quote: \"None\"]",
     "Advantage - Grade": "None [Quote: \"None\"]",
-    "Advantage - Soft Skills": "None",
-    "Advantage - Hard Skills": [
-      "[Serverless [Quote: \"working with Serverless\"]]",
-      "[Data Components [Quote: \"data components\"]]",
-      "[Glue [Quote: \"Glue\"]]"
-    ]
+    "Advantage - Soft Skills": [],
+    "Advantage - Hard Skills": []
   },
   {
     "job_title": "Network Security Engineer",
@@ -404,7 +398,9 @@
     "Remaining Studies": "None [Quote: \"None\"]",
     "Grade": "None [Quote: \"None\"]",
     "Availability": "None",
-    "Min Experience Years 1": "3+ years [Quote: \"3+ years of hands-on experience in Enterprise Networking or complex integration environments\"]",
+    "Min Experience Years": [
+      "3+ years [Quote: \"3+ years of hands-on experience in Enterprise Networking or complex integration environments\"]"
+    ],
     "Soft Skills": [
       "Problem-solving [Quote: \"Strong problem-solving, communication, and customer service skills.\"]",
       "Communication & Presentation [Quote: \"Strong problem-solving, communication, and customer service skills.\"]"
@@ -433,7 +429,9 @@
     "Advantage - University Only": "No [Quote: \"None\"]",
     "Advantage - Remaining Studies": "None [Quote: \"None\"]",
     "Advantage - Grade": "None [Quote: \"None\"]",
-    "Advantage - Soft Skills": "None",
-    "Advantage - Hard Skills": "[Cisco ACI [Quote: \"Hands-on experience with Cisco ACI – significant advantage\"]]"
+    "Advantage - Soft Skills": [],
+    "Advantage - Hard Skills": [
+      "[Cisco ACI [Quote: \"Hands-on experience with Cisco ACI – significant advantage\"]]"
+    ]
   }
 ]
