@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
-import { calculateJobMatch } from '../utils/scoringEngine';
 
-export default function useJobFilters(jobsData, activeProfile) {
+export default function useJobFilters(activeProfile) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   
   const [experienceRange, setExperienceRange] = useState([0, 10]);
@@ -12,7 +11,6 @@ export default function useJobFilters(jobsData, activeProfile) {
 
   useEffect(() => {
     if (!activeProfile) {
-      // Reset all filters when returning to "No selection"
       setExperienceRange([0, 10]);
       setEmploymentTypeFilter('all');
       setJobTitleFilter('');
@@ -21,7 +19,6 @@ export default function useJobFilters(jobsData, activeProfile) {
       return;
     }
 
-    // Reset non-profile filters (location & company) when switching profiles
     setLocationFilter('');
     setCompanyFilter('');
 
@@ -41,7 +38,7 @@ export default function useJobFilters(jobsData, activeProfile) {
       setJobTitleFilter('');
     }
 
-    // 2. Years of Experience Required Range
+    // 2. Years of Experience
     if (Array.isArray(activeProfile.experienceRange) && activeProfile.experienceRange.length === 2) {
       const min = Math.max(0, Math.min(10, Number(activeProfile.experienceRange[0]) || 0));
       const max = Math.max(min, Math.min(10, Number(activeProfile.experienceRange[1]) || 10));
@@ -91,129 +88,6 @@ export default function useJobFilters(jobsData, activeProfile) {
     );
   }, [experienceRange, employmentTypeFilter, jobTitleFilter, locationFilter, companyFilter]);
 
-  const filteredAndSortedJobs = useMemo(() => {
-    const [minExp, maxExp] = experienceRange;
-
-    const filtered = jobsData.filter((job) => {
-      const rawJobTitle = String(
-        job.job_title || job["Job Title"] || job.title || ''
-      );
-      const rawJobDescription = String(
-        job.text || job.description || job["Full Description"] || ''
-      );
-
-      // --- 1. JOB TITLE / TARGET TITLE FILTER ---
-      if (jobTitleFilter && jobTitleFilter.trim()) {
-        const targetPhrases = jobTitleFilter
-          .split(/[,|/]/)
-          .map(t => t.trim().toLowerCase())
-          .filter(Boolean);
-
-        const normalizedTitle = rawJobTitle
-          .toLowerCase()
-          .replace(/&/g, ' and ')
-          .replace(/[^\w\s]/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
-
-        const normalizedDescription = rawJobDescription
-          .toLowerCase()
-          .replace(/&/g, ' and ')
-          .replace(/[^\w\s]/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
-
-        const matchesTarget = targetPhrases.some(phrase => {
-          const cleanPhrase = phrase
-            .replace(/&/g, ' and ')
-            .replace(/[^\w\s]/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim();
-
-          if (!cleanPhrase) return false;
-
-          const words = cleanPhrase.split(/\s+/).filter(Boolean);
-
-          // A) Matches "X ... Y" in title (e.g. "Data Platform Engineer" for "Data Engineer")
-          const titlePattern = words.map(w => `\\b${w}\\b`).join('.*?');
-          const titleRegex = new RegExp(titlePattern, 'i');
-          const matchesTitle = titleRegex.test(normalizedTitle);
-
-          // B) Strictly consecutive phrase in text description (e.g. exact "Data Engineer")
-          const descriptionPattern = `\\b${words.join('\\s+')}\\b`;
-          const descriptionRegex = new RegExp(descriptionPattern, 'i');
-          const matchesDescription = descriptionRegex.test(normalizedDescription);
-
-          return matchesTitle || matchesDescription;
-        });
-
-        if (!matchesTarget) {
-          return false;
-        }
-      }
-
-      // --- 2. EXPERIENCE REQUIRED FILTER ---
-      const minExpKey = Object.keys(job).find(k => /^Min Experience Years/i.test(k));
-      let jobReqYears = 0;
-      if (minExpKey && job[minExpKey]) {
-        const raw = Array.isArray(job[minExpKey]) ? job[minExpKey].join(' ') : String(job[minExpKey]);
-        const match = raw.match(/(\d+(\.\d+)?)/);
-        if (match) jobReqYears = parseFloat(match[1]);
-      }
-
-      if (minExp > 0 && jobReqYears < minExp) return false;
-      if (maxExp < 10 && jobReqYears > maxExp) return false;
-
-      // --- 3. EMPLOYMENT TYPE FILTER ---
-      if (employmentTypeFilter !== 'all') {
-        const emp = String(job.employment_type || job.Availability || '').toLowerCase();
-        if (employmentTypeFilter === 'full-time' && !emp.includes('full')) return false;
-        if (employmentTypeFilter === 'part-time' && !emp.includes('part')) return false;
-      }
-
-      // --- 4. LOCATIONS FILTER ---
-      if (locationFilter.trim()) {
-        const locationQueries = locationFilter
-          .split(/[,|/]/)
-          .map(l => l.trim().toLowerCase())
-          .filter(Boolean);
-
-        const jobLocation = String(job.location || '').toLowerCase();
-        if (!locationQueries.some(q => jobLocation.includes(q))) return false;
-      }
-
-      // --- 5. COMPANY FILTER ---
-      if (companyFilter.trim()) {
-        const companyQueries = companyFilter
-          .split(/[,|/]/)
-          .map(c => c.trim().toLowerCase())
-          .filter(Boolean);
-
-        const jobCompany = String(job.company_name || '').toLowerCase();
-        if (!companyQueries.some(q => jobCompany.includes(q))) return false;
-      }
-
-      return true;
-    });
-
-    const calculated = filtered.map((job) => ({
-      job,
-      scores: activeProfile ? calculateJobMatch(job, activeProfile) : null,
-    }));
-
-    if (!activeProfile) return calculated;
-
-    return calculated.sort((a, b) => {
-      const coreA = a.scores?.mandatory ?? 0;
-      const coreB = b.scores?.mandatory ?? 0;
-      if (coreB !== coreA) return coreB - coreA;
-
-      const bonusA = a.scores?.advantages ?? -1;
-      const bonusB = b.scores?.advantages ?? -1;
-      return bonusB - bonusA;
-    });
-  }, [activeProfile, experienceRange, employmentTypeFilter, jobTitleFilter, locationFilter, companyFilter, jobsData]);
-
   const experienceRangeLabel = useMemo(() => {
     const [min, max] = experienceRange;
     if (min === 0 && max >= 10) return 'Any';
@@ -230,7 +104,6 @@ export default function useJobFilters(jobsData, activeProfile) {
     companyFilter, setCompanyFilter,
     resetFilters,
     hasActiveFilters,
-    filteredAndSortedJobs,
     experienceRangeLabel
   };
 }

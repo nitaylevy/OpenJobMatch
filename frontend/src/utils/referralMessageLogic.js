@@ -24,8 +24,11 @@ function formatList(items) {
 // 3. Helper to check if the job actually requires education
 function checkJobRequiresEducation(job) {
   const eduKeys = [
-    "Degree Types", "Degree Names", "University Only", 
-    "Advantage - Degree Types", "Advantage - Degree Names"
+    "degree_types", "Degree Types", 
+    "degree_names", "Degree Names", 
+    "university_only", "University Only", 
+    "advantage_degree_types", "Advantage - Degree Types", 
+    "advantage_degree_names", "Advantage - Degree Names"
   ];
   
   return eduKeys.some(key => {
@@ -38,7 +41,7 @@ function checkJobRequiresEducation(job) {
 
 // 4. Helper to check if the job actually requires experience
 function checkJobRequiresExperience(job) {
-  const minExpKey = Object.keys(job).find(k => /^Min Experience Years/i.test(k));
+  const minExpKey = Object.keys(job).find(k => /^(Min Experience Years|min_experience_years)/i.test(k));
   if (!minExpKey) return false;
   
   const val = job[minExpKey];
@@ -48,13 +51,14 @@ function checkJobRequiresExperience(job) {
 
 // 5. Main export function
 export function generateReferralMessage(job, profile) {
-  const companyName = job.company_name || 'your company';
-  const jobTitle = job.job_title || 'open';
+  const companyName = job.company || job.company_name || 'your company';
+  const jobTitle = job.title || job.job_title || 'open';
+  const jobUrl = job.url || '[Insert Link]';
   
   // ==========================================
   // 1. HARD SKILLS
   // ==========================================
-  const toolKeys = ["Hard Skills", "Advantage - Hard Skills"];
+  const toolKeys = ["hard_skills", "Hard Skills", "advantage_hard_skills", "Advantage - Hard Skills"];
   const jobReqBullets = [];
 
   toolKeys.forEach((k) => {
@@ -139,7 +143,7 @@ export function generateReferralMessage(job, profile) {
 
 I saw the ${jobTitle} opening at ${companyName} and believe my experience aligns well with the role.
 ${body ? '\n' + body + '\n' : ''}
-Here's the job link: [Insert Link]
+Here's the job link: ${jobUrl}
 
 I've attached my resume for reference and would be grateful if you could refer me.
 

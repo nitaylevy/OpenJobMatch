@@ -1,18 +1,27 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Box, Typography, Stack, Container, Button, Collapse, 
-  Avatar, Select, MenuItem, TextField, FormControl, Slider, Paper, Chip
+  Avatar, Select, MenuItem, TextField, FormControl, Slider, Paper, Chip,
+  CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
 import { 
-  FileText, Filter, RotateCcw, Briefcase, Clock, Award, MapPin, Building2
+  FileText, Filter, RotateCcw, Briefcase, Clock, Award, MapPin, Building2, Search, AlertCircle
 } from 'lucide-react';
 
-import jobsData from '../assets/jobs_extracted.json';
+import defaultJobsData from '../assets/jobs_extracted.json';
 import JobCard from '../components/JobPage/JobCard';
 import useJobFilters from '../hooks/useJobFilters';
+import { calculateJobMatch } from '../utils/scoringEngine';
+
+// Handles standard Create React App or Vite environment variables
+const LAMBDA_URL = import.meta.env.VITE_GET_FILTERED_JOBS_URL || "https://<your-api-id>.lambda-url.eu-west-1.on.aws/";
 
 export default function JobsPage({ state, actions }) {
   const [selectedSearchId, setSelectedSearchId] = useState('');
+  const [fetchedJobs, setFetchedJobs] = useState(defaultJobsData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [hasSearched, setHasSearched] = useState(false);
 
   const activeProfile = useMemo(() => {
     if (!selectedSearchId) return null;
@@ -31,9 +40,67 @@ export default function JobsPage({ state, actions }) {
     companyFilter, setCompanyFilter,
     resetFilters,
     hasActiveFilters,
-    filteredAndSortedJobs,
     experienceRangeLabel
-  } = useJobFilters(jobsData, activeProfile);
+  } = useJobFilters(activeProfile);
+
+  const handleSearchJobs = async () => {
+    setIsLoading(true);
+    setErrorMsg('');
+    setHasSearched(true);
+    setIsFilterOpen(false); // Optionally close filters on search
+
+    try {
+      const payload = {
+        companies: companyFilter ? companyFilter.split(/[,|/]/).map(c => c.trim()).filter(Boolean) : [],
+        job_titles: jobTitleFilter ? jobTitleFilter.split(/[,|/]/).map(t => t.trim()).filter(Boolean) : [],
+        employment_type: employmentTypeFilter !== 'all' ? [employmentTypeFilter] : [],
+        locations: locationFilter ? locationFilter.split(/[,|/]/).map(l => l.trim()).filter(Boolean) : [],
+        min_experience: experienceRange[0] > 0 ? experienceRange[0] : null,
+        max_experience: experienceRange[1] < 10 ? experienceRange[1] : null,
+        limit: 200
+      };
+
+      const response = await fetch(LAMBDA_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const jobsArray = Array.isArray(data) ? data : (data.jobs || []);
+      setFetchedJobs(jobsArray);
+
+    } catch (err) {
+      console.error("Error fetching jobs from Lambda:", err);
+      setErrorMsg(`Failed to load jobs from server (${err.message}). Displaying default demo jobs instead.`);
+      setFetchedJobs(defaultJobsData);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const displayedAndSortedJobs = useMemo(() => {
+    const calculated = fetchedJobs.map((job) => ({
+      job,
+      scores: activeProfile ? calculateJobMatch(job, activeProfile) : null,
+    }));
+
+    if (!activeProfile) return calculated;
+
+    return calculated.sort((a, b) => {
+      const coreA = a.scores?.mandatory ?? 0;
+      const coreB = b.scores?.mandatory ?? 0;
+      if (coreB !== coreA) return coreB - coreA;
+
+      const bonusA = a.scores?.advantages ?? -1;
+      const bonusB = b.scores?.advantages ?? -1;
+      return bonusB - bonusA;
+    });
+  }, [fetchedJobs, activeProfile]);
 
   const handleAddSkillsToProfile = (newSkills) => {
     if (!selectedSearchId || !actions?.handleUpdateSavedSearchSkills || !newSkills.length) return;
@@ -57,25 +124,30 @@ export default function JobsPage({ state, actions }) {
           </Typography>
         </Box>
 
-        <Stack direction="row" spacing={2} sx={{ alignItems: 'center', flexShrink: 0 }}>
+        <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', flexShrink: 0 }}>
+          {/* Moved Search Button outside of filters block */}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSearchJobs}
+            disabled={isLoading}
+            startIcon={isLoading ? <CircularProgress size={16} color="inherit" /> : <Search size={18} />}
+            sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 700, height: 40, px: 3, boxShadow: 'none' }}
+          >
+            {isLoading ? 'Searching...' : 'Search'}
+          </Button>
+
           <Button
             variant={isFilterOpen ? "contained" : "outlined"}
             color="primary"
             startIcon={<Filter size={18} />}
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            sx={{
-              borderRadius: 2,
-              textTransform: 'none',
-              fontWeight: 600,
-              width: 124,
-              height: 40,
-              justifyContent: 'center'
-            }}
+            sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 600, height: 40, bgcolor: isFilterOpen ? 'primary.main' : 'transparent', boxShadow: 'none' }}
           >
             Filters {hasActiveFilters && '*'}
           </Button>
 
-          <Box sx={{ width: 300 }}>
+          <Box sx={{ width: 260 }}>
             <Select 
               value={selectedSearchId} 
               onChange={(e) => setSelectedSearchId(e.target.value)}
@@ -110,7 +182,6 @@ export default function JobsPage({ state, actions }) {
               <Filter size={18} color="#2563eb" />
               Filter Job Postings
             </Typography>
-            
             <Button
               size="small"
               variant="text"
@@ -125,7 +196,7 @@ export default function JobsPage({ state, actions }) {
                 '&:hover': { color: 'error.main' } 
               }}
             >
-              Reset All Filters
+              Clear Filters
             </Button>
           </Box>
 
@@ -184,29 +255,63 @@ export default function JobsPage({ state, actions }) {
         </Paper>
       </Collapse>
 
+      {/* Error Modal Window */}
+      <Dialog 
+        open={Boolean(errorMsg)} 
+        onClose={() => setErrorMsg('')}
+        maxWidth="sm"
+        fullWidth
+        sx={{ '& .MuiDialog-paper': { borderRadius: 3 } }}
+      >
+        <DialogTitle sx={{ fontWeight: 800, color: '#dc2626', display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <AlertCircle size={22} />
+          Error Fetching Jobs
+        </DialogTitle>
+        <DialogContent dividers sx={{ py: 3 }}>
+          <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.6 }}>
+            {errorMsg}
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 2, px: 3 }}>
+          <Button 
+            onClick={() => setErrorMsg('')} 
+            variant="contained" 
+            color="error" 
+            sx={{ textTransform: 'none', fontWeight: 600, borderRadius: 1.5, boxShadow: 'none', px: 3 }}
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="body2" sx={{ color: '#64748b', fontWeight: 600 }}>
-          Showing <Box component="span" sx={{ color: '#0f172a', fontWeight: 700 }}>{filteredAndSortedJobs.length}</Box> of {jobsData.length} job postings
+          Showing <Box component="span" sx={{ color: '#0f172a', fontWeight: 700 }}>{displayedAndSortedJobs.length}</Box> job postings
+          {hasSearched && !errorMsg ? ' from server' : ' (Default/Fallback)'}
         </Typography>
       </Box>
       
       <Stack spacing={4}>
-        {filteredAndSortedJobs.length === 0 ? (
+        {isLoading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+            <CircularProgress />
+          </Box>
+        ) : displayedAndSortedJobs.length === 0 ? (
           <Paper sx={{ p: 6, textAlign: 'center', borderRadius: 3, border: '1px dashed #cbd5e1', bgcolor: '#f8fafc' }}>
             <Typography variant="h6" fontWeight={700} sx={{ color: '#475569', mb: 1 }}>
-              No job postings matched your filters
+              No job postings found
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5 }}>
-              Try loosening your location, title, company, or experience constraints.
+              Try loosening your filters and searching again.
             </Typography>
-            <Button variant="outlined" size="small" onClick={resetFilters} sx={{ borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}>
-              Reset Filters
+            <Button variant="outlined" size="small" onClick={() => setIsFilterOpen(true)} sx={{ borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}>
+              Adjust Filters
             </Button>
           </Paper>
         ) : (
-          filteredAndSortedJobs.map(({ job, scores }, index) => (
+          displayedAndSortedJobs.map(({ job, scores }, index) => (
             <JobCard 
-              key={job.job_id || index} 
+              key={job.job_id || job.id || index} 
               job={job} 
               precomputedScores={scores}
               candidateSkills={candidateSkills}

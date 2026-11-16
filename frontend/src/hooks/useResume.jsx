@@ -7,7 +7,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-const LAMBDA_URL = import.meta.env.CV_SCAN_LAMBDA_URL || "https://your-api-id.execute-api.region.amazonaws.com/prod/analyze";
+const LAMBDA_URL = import.meta.env.VITE_CV_SCAN_LAMBDA_URL || "https://your-api-id.execute-api.region.amazonaws.com/prod/analyze";
 const SAVED_SEARCHES_STORAGE_KEY = 'resume_analyzer_saved_searches';
 
 const DEFAULT_SOFT_SKILLS = Object.freeze({

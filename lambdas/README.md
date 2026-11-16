@@ -3,6 +3,7 @@
 This guide walks through configuring and deploying two serverless functions:
 1. **`resume-parser-api`**: An HTTP/Function URL-triggered Lambda integrating AWS Textract and Bedrock.
 2. **`job-scaner-api`**: An event-driven Lambda triggered via Amazon SQS with Bedrock and S3 access.
+3. **`filter-jobs-api`**: An HTTP/Function URL-triggered Lambda that reads and filters consolidated job listings from S3.
 
 ---
 
@@ -165,3 +166,56 @@ Grants read and cleanup permissions on your specific queue.
 5. Set the batch size to 1 and click **Add**.
 6. Switch to the **Code** tab and click **Deploy**.
 7. Copy your SQS URL and save it in your local `.env` file in the evaluations directory.
+
+---
+
+## 3. Filter Jobs Function (`filter-jobs-api`)
+
+### Step 1: Create the Function
+1. In the **AWS Management Console**, navigate to **AWS Lambda**.
+2. Click **Create function** → Choose **Author from scratch**.
+3. Set **Function name** to:
+   ```text
+   filter-jobs-api
+   ```
+4. Choose your runtime (e.g., Python 3.12+).
+
+### Step 2: Upload Code & General Configuration
+1. Under the **Code** tab, paste or upload the implementation from `filter-jobs-api.py`.
+2. Go to the **Configuration** tab → **General configuration** → click **Edit**:
+   * **Memory:** `512 MB`
+   * **Timeout:** `30 sec`
+3. Click **Save**.
+
+### Step 3: Configure IAM Execution Role
+1. In the **Configuration** tab, select **Permissions**.
+2. Click the link under **Role name** to open **View role details in IAM**.
+3. Under the **Permissions** tab in IAM, click **Add permissions** → **Create inline policy**.
+4. Switch to the **JSON** tab, paste the following policy to grant read access to your jobs S3 bucket (e.g., `weekly-jobs`), and name it `AllowReadJobsS3`:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowLambdaReadJobFiles",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::weekly-jobs",
+        "arn:aws:s3:::weekly-jobs/*"
+      ]
+    }
+  ]
+}
+```
+5. Click **Create policy**.
+
+### Step 4: Configure Function URL & Deploy
+1. Back in the Lambda console, select **Configuration** → **Function URL** → **Create function URL**.
+2. Set **Auth type** to `NONE` (and configure CORS if calling directly from your frontend).
+3. Under the **Code** tab, click **Deploy**.
+4. Copy the generated **Function URL** and save it in your local `.env` file in the frontend or evaluations directory.

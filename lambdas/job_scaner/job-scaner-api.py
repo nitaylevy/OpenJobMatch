@@ -3,6 +3,8 @@ import os
 import re
 import boto3
 from botocore.config import Config
+import uuid
+from datetime import datetime, timezone
 
 # Local Application / Internal Modules (Must be bundled with the Lambda)
 from bedrock import BedrockConfig, extract_single_section
@@ -30,7 +32,7 @@ from utils import (
 # ==============================================================================
 REGION = os.environ.get("AWS_DEFAULT_REGION", "eu-west-1")
 MODEL_NAME = os.environ.get("MODEL_NAME", "google.gemma-3-4b-it")
-BUCKET_NAME = "daily-scanned-jobs"
+BUCKET_NAME = os.environ.get("BUCKET_NAME", "weekly-jobs")
 MAX_GENERATION_TOKENS = 768
 
 boto_config = Config(
@@ -111,6 +113,30 @@ def run_single_extraction_pipeline(text: str, steps: list) -> list[str]:
 
     return results
 
+MIN_EXP_KEY_REGEX = re.compile(r"^Min Experience Years(?:\s+\d+)?$", re.IGNORECASE)
+
+ARRAY_FIELDS = (
+    "Hard Skills",
+    "Advantage - Hard Skills",
+    "Min Experience Years",
+    "Soft Skills",
+    "Advantage - Soft Skills",
+)
+
+def _is_empty_token(val) -> bool:
+    if val is None:
+        return True
+    s = str(val).strip()
+    return s.upper() in ("", "NONE", "NAN") or s.lower().startswith("none [quote:")
+
+def ensure_string_list(val) -> list[str]:
+    """Normalizes None, 'None', a single string, or a list into a clean list[str]."""
+    if _is_empty_token(val):
+        return []
+    if isinstance(val, (list, tuple)):
+        return [str(v).strip() for v in val if not _is_empty_token(v)]
+    return [str(val).strip()]
+
 def parse_list_to_dict(items: list | None) -> dict:
     if not isinstance(items, (list, tuple)):
         return {}
@@ -122,30 +148,43 @@ def parse_list_to_dict(items: list | None) -> dict:
         if not match:
             continue
 
-        key = match.group(1).strip()
+        raw_key = match.group(1).strip()
         val = match.group(2).strip()
 
-        if key in result:
-            if isinstance(result[key], list):
-                result[key].append(val)
+        # Collapse "Min Experience Years 1", "Min Experience Years 2", etc. into "Min Experience Years"
+        if MIN_EXP_KEY_REGEX.match(raw_key):
+            key = "Min Experience Years"
+            if not _is_empty_token(val):
+                result.setdefault(key, []).append(val)
             else:
-                result[key] = [result[key], val]
+                result.setdefault(key, [])
+            continue
+
+        if raw_key in result:
+            if isinstance(result[raw_key], list):
+                result[raw_key].append(val)
+            else:
+                result[raw_key] = [result[raw_key], val]
         else:
-            result[key] = val
+            result[raw_key] = val
 
     return result
 
 def row_to_json_record(row: dict) -> dict:
     record = row.copy()
 
-    # Flatten mandatory fields[cite: 1]
+    # Flatten mandatory fields
     record.update(parse_list_to_dict(record.pop("mandatory", [])))
 
-    # Flatten advantages fields (prefixed if keys collide)[cite: 1]
+    # Flatten advantages fields (prefixed if keys collide)
     adv_dict = parse_list_to_dict(record.pop("advantages", []))
     for k, v in adv_dict.items():
         key_name = f"Advantage - {k}" if k in record else k
         record[key_name] = v
+
+    # Guarantee array fields are always lists (even if missing, single-valued, or "None")
+    for field in ARRAY_FIELDS:
+        record[field] = ensure_string_list(record.get(field))
 
     return record
 
@@ -155,43 +194,29 @@ def row_to_json_record(row: dict) -> dict:
 def lambda_handler(event, context):
     batch_item_failures = []
     skipped_count = 0
-    
-    # Check if invoked via SQS
-    records = event.get("Records", [])
-    
-    # Fallback to direct invocation if testing via console/boto3
-    if not records:
-        records = [{"body": json.dumps(event), "messageId": "direct-call"}]
+    athena_records = []
+
+    records = event.get("Records") or [{"body": json.dumps(event), "messageId": "direct-call"}]
 
     for record in records:
         message_id = record.get("messageId")
         try:
             body = json.loads(record["body"])
 
-            job_id = body.get("job_id")
-            job_company = body.get("job_company")
-            raw_text = body.get("job_description", "")
+            job_id = str(body.get("id") or "").strip()
+            job_company = str(body.get("company") or "").strip()
+            raw_text = body.get("content_full") or ""
 
-            # Validation check: skip if job_id or job_company is missing/empty
-            if not job_id or not job_company or not str(job_id).strip() or not str(job_company).strip():
-                print(f"Skipping record {message_id}: missing job_id or job_company.")
+            if not job_id or not job_company:
+                print(f"Skipping record {message_id}: missing id or company.")
                 skipped_count += 1
                 continue
 
-            # Clean whitespace
-            job_id = str(job_id).strip()
-            job_company = str(job_company).strip()
-
-            # Step 1: Normalize inline advantages
+            # Step 1–4: Clean and slice sections
             text = extract_and_move_advantages(raw_text)
-
-            # Step 2: Detect section boundaries
             markers = detect_section_start_lines(text)
-
-            # Step 3: Slice sections
             sliced_sections = slice_job_sections(text, markers)
 
-            # Step 4: Clean final sections safely
             responsibilities = str(sliced_sections.get("responsibilities") or "").strip()
             nice_to_have = str(sliced_sections.get("nice_to_have") or "").strip()
             must_have = str(sliced_sections.get("must_have") or "").strip()
@@ -201,34 +226,36 @@ def lambda_handler(event, context):
             elif must_have and must_have.upper() not in ["NONE", "NAN"]:
                 must_have = truncate_unrelated_tail(must_have)
 
-            # Step 5: Run Extraction Pipelines
-            mandatory_list = run_single_extraction_pipeline(must_have, MANDATORY_STEPS)
-            advantages_list = run_single_extraction_pipeline(nice_to_have, ADVANTAGE_STEPS)
-
+            # Step 5: Extraction pipelines
             row = {
                 "job_id": job_id,
                 "job_company": job_company,
                 "responsibilities": responsibilities,
-                "mandatory": mandatory_list,
-                "advantages": advantages_list,
+                "mandatory": run_single_extraction_pipeline(must_have, MANDATORY_STEPS),
+                "advantages": run_single_extraction_pipeline(nice_to_have, ADVANTAGE_STEPS),
             }
 
-            processed_record = row_to_json_record(row)
-
-            s3_key = f"{job_company}/{job_id}.json"
-            s3_client.put_object(
-                Bucket=BUCKET_NAME,
-                Key=s3_key,
-                Body=json.dumps(processed_record, ensure_ascii=False, indent=2),
-                ContentType="application/json"
-            )
+            athena_records.append(row_to_json_record(row))
 
         except Exception as e:
-            print(f"Error processing record {message_id}: {str(e)}")
-            # Report failure so SQS can retry this specific message
+            print(f"Error processing record {message_id}: {e}")
             batch_item_failures.append({"itemIdentifier": message_id})
 
-    print(f"Batch completed: {skipped_count} record(s) skipped due to missing job_id or job_company.")
+    if athena_records:
+        now = datetime.now(timezone.utc)
+        athena_key = (
+            f"scanned_jobs/year={now:%Y}/month={now:%m}/day={now:%d}/"
+            f"scanned_{now:%H%M%S}_{uuid.uuid4().hex[:6]}.jsonl"
+        )
+        jsonl_content = "\n".join(json.dumps(rec, ensure_ascii=False) for rec in athena_records)
 
-    # Return partial batch failure format for SQS
+        s3_client.put_object(
+            Bucket=BUCKET_NAME,
+            Key=athena_key,
+            Body=jsonl_content.encode("utf-8"),
+            ContentType="application/jsonlines"
+        )
+        print(f"Uploaded {len(athena_records)} scanned jobs to {athena_key}")
+
+    print(f"Batch completed: {skipped_count} skipped.")
     return {"batchItemFailures": batch_item_failures}

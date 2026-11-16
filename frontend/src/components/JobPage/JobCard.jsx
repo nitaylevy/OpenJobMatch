@@ -8,7 +8,7 @@ import {
 import { 
   MapPin, Briefcase, Building, ChevronDown, ChevronUp, CheckCircle2, 
   Target, GraduationCap, Sparkles, ExternalLink, CircleDot, XCircle, 
-  CalendarClock, ClipboardList, Copy, Plus, Code, Users
+  CalendarClock, ClipboardList, Copy, Plus, Code, Users, Clock
 } from 'lucide-react';
 
 import { 
@@ -24,36 +24,56 @@ const ATTRIBUTE_SECTIONS = [
   {
     key: "experience", title: "Experience & Skills", icon: Target, iconColor: '#2563eb', iconBg: '#eff6ff',
     items: [
-      { label: "Min Experience Years", keyPattern: /^Min Experience Years/i },
-      { label: "Hard Skills", keys: ["Hard Skills"] },
-      { label: "Soft Skills", key: "Soft Skills" }
+      { label: "Min Experience Years", keys: ["min_experience_years", "Min Experience Years"] },
+      { label: "Hard Skills", keys: ["hard_skills", "Hard Skills"] },
+      { label: "Soft Skills", keys: ["soft_skills", "Soft Skills"] }
     ]
   },
   {
     key: "education", title: "Education Requirements", icon: GraduationCap, iconColor: '#7c3aed', iconBg: '#f3e8ff',
     items: [
-      { label: "Degree Types", key: "Degree Types" },
-      { label: "Degree Names", key: "Degree Names" },
-      { label: "Accepting Related Degrees or Experience", key: "Accepting Related Degrees or Experience" },
-      { label: "University Only", key: "University Only" },
-      { label: "Remaining Studies", key: "Remaining Studies" },
-      { label: "Grade", key: "Grade" }
+      { label: "Degree Types", keys: ["degree_types", "Degree Types"] },
+      { label: "Degree Names", keys: ["degree_names", "Degree Names"] },
+      { label: "Accepting Related Degrees or Experience", keys: ["accepting_related_degrees_or_experience", "Accepting Related Degrees or Experience"] },
+      { label: "University Only", keys: ["university_only", "University Only"] },
+      { label: "Remaining Studies", keys: ["remaining_studies", "Remaining Studies"] },
+      { label: "Grade", keys: ["grade", "Grade"] }
     ]
   },
   {
     key: "advantages", title: "Advantages (Nice-to-Have)", icon: Sparkles, iconColor: '#ea580c', iconBg: '#ffedd5',
     items: [
-      { label: "Hard Skills", keys: ["Advantage - Hard Skills"] },
-      { label: "Degree Types", key: "Advantage - Degree Types" },
-      { label: "Degree Names", key: "Advantage - Degree Names" },
-      { label: "Accepting Related Degrees", key: "Advantage - Accepting Related Degrees or Experience" },
-      { label: "University Only", key: "Advantage - University Only" },
-      { label: "Remaining Studies", key: "Advantage - Remaining Studies" },
-      { label: "Grade", key: "Advantage - Grade" },
-      { label: "Soft Skills", key: "Advantage - Soft Skills" }
+      { label: "Hard Skills", keys: ["advantage_hard_skills", "Advantage - Hard Skills"] },
+      { label: "Degree Types", keys: ["advantage_degree_types", "Advantage - Degree Types"] },
+      { label: "Degree Names", keys: ["advantage_degree_names", "Advantage - Degree Names"] },
+      { label: "Accepting Related Degrees", keys: ["advantage_accepting_related_degrees_or_experience", "Advantage - Accepting Related Degrees or Experience"] },
+      { label: "University Only", keys: ["advantage_university_only", "Advantage - University Only"] },
+      { label: "Remaining Studies", keys: ["advantage_remaining_studies", "Advantage - Remaining Studies"] },
+      { label: "Grade", keys: ["advantage_grade", "Advantage - Grade"] },
+      { label: "Soft Skills", keys: ["advantage_soft_skills", "Advantage - Soft Skills"] }
     ]
   }
 ];
+
+// Helper to convert "2026-11-14 15:36 UTC" to "X hours ago" or "X days ago"
+const getRelativeTime = (dateStr) => {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr; // fallback if parsing fails
+
+  const diffInHours = Math.floor((new Date() - date) / (1000 * 60 * 60));
+
+  if (diffInHours >= 24) {
+    const days = Math.floor(diffInHours / 24);
+    return `${days} day${days === 1 ? '' : 's'} ago`;
+  }
+  
+  if (diffInHours < 1) {
+    return 'Less than an hour ago';
+  }
+
+  return `${diffInHours} hour${diffInHours === 1 ? '' : 's'} ago`;
+};
 
 const cleanBrackets = (str) => {
   if (!str) return '';
@@ -338,10 +358,15 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
 
   const toggleSection = (key) => setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
 
+  // Fallback data mapping for new Athena S3 JSON format
+  const displayTitle = job.title || job.job_title;
+  const displayCompany = job.company || job.company_name;
+  const fullDescriptionText = job.content_full || job.text;
+
   // Generate LinkedIn Leads URL for the company
   const linkedInLeadsUrl = useMemo(() => {
-    return generateLinkedInLeadsUrl ? generateLinkedInLeadsUrl(job.company_name) : '';
-  }, [job.company_name]);
+    return generateLinkedInLeadsUrl ? generateLinkedInLeadsUrl(displayCompany) : '';
+  }, [displayCompany]);
 
   const handleOpenReferralModal = () => {
     const { subject, message } = generateReferralMessage(job, activeProfile);
@@ -418,17 +443,20 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
 
   const hasAdvantages = useMemo(() => {
     const advantageKeys = [
-      "Advantage - Hard Skills", 
-      "Advantage - Degree Types", "Advantage - Degree Names", 
-      "Advantage - Accepting Related Degrees or Experience", 
-      "Advantage - University Only", "Advantage - Remaining Studies", 
-      "Advantage - Grade", "Advantage - Soft Skills"
+      "advantage_hard_skills", "Advantage - Hard Skills", 
+      "advantage_degree_types", "Advantage - Degree Types", 
+      "advantage_degree_names", "Advantage - Degree Names", 
+      "advantage_accepting_related_degrees_or_experience", "Advantage - Accepting Related Degrees or Experience", 
+      "advantage_university_only", "Advantage - University Only", 
+      "advantage_remaining_studies", "Advantage - Remaining Studies", 
+      "advantage_grade", "Advantage - Grade", 
+      "advantage_soft_skills", "Advantage - Soft Skills"
     ];
     return advantageKeys.some((k) => Array.isArray(job[k]) ? job[k].some(isValidMetadataString) : isValidMetadataString(job[k]));
   }, [job]);
 
   const availabilityItems = useMemo(() => {
-    const raw = job["Availability"];
+    const raw = job["availability"] ?? job["Availability"];
     if (!raw) return [];
     return (Array.isArray(raw) ? raw : [raw]).filter(isValidMetadataString);
   }, [job]);
@@ -448,16 +476,40 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%', gap: 2 }}>
               <Box sx={{ textAlign: 'left', flex: 1 }}>
                 <Typography variant="h5" fontWeight={800} sx={{ color: '#0f172a', mb: 1.5, textAlign: 'left' }}>
-                  {job.job_title}
+                  {displayTitle}
                 </Typography>
                 
                 <Stack direction="row" spacing={1.5} useFlexGap sx={{ alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-start', mb: 2.5 }}>
-                  {isValidMetadataString(job.company_name) && <Chip icon={<Building size={16} />} label={job.company_name} size="small" sx={{ borderRadius: 1.5, fontWeight: 600, bgcolor: '#f1f5f9', color: '#334155' }} />}
+                  {isValidMetadataString(displayCompany) && <Chip icon={<Building size={16} />} label={displayCompany} size="small" sx={{ borderRadius: 1.5, fontWeight: 600, bgcolor: '#f1f5f9', color: '#334155' }} />}
                   {isValidMetadataString(job.location) && <Chip icon={<MapPin size={16} />} label={job.location} size="small" variant="outlined" sx={{ borderRadius: 1.5, fontWeight: 600 }} />}
                   {isValidMetadataString(job.employment_type) && <Chip icon={<Briefcase size={16} />} label={job.employment_type} size="small" variant="outlined" color="primary" sx={{ borderRadius: 1.5, fontWeight: 600 }} />}
+                  {isValidMetadataString(job.updated_at_formatted) && (
+                    <Chip 
+                      icon={<Clock size={16} />} 
+                      label={getRelativeTime(job.updated_at_formatted)} 
+                      size="small" 
+                      variant="outlined" 
+                      sx={{ 
+                        borderRadius: 1.5, 
+                        fontWeight: 600, 
+                        color: 'text.secondary', 
+                        borderColor: 'divider',
+                        bgcolor: '#fafafa'
+                      }} 
+                    />
+                  )}
                 </Stack>
                 <Stack direction="row" spacing={1.5} useFlexGap sx={{ flexWrap: 'wrap', gap: 1 }}>
-                  <Button variant="contained" size="small" endIcon={<ExternalLink size={14} />} sx={{ borderRadius: 1.5, textTransform: 'none', fontWeight: 600, px: 2, py: 0.5, boxShadow: 'none' }}>
+                  <Button 
+                    variant="contained" 
+                    size="small" 
+                    component="a" 
+                    href={job.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    endIcon={<ExternalLink size={14} />} 
+                    sx={{ borderRadius: 1.5, textTransform: 'none', fontWeight: 600, px: 2, py: 0.5, boxShadow: 'none' }}
+                  >
                     Apply
                   </Button>
                   <Button 
@@ -533,10 +585,10 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
                 {ATTRIBUTE_SECTIONS.map((section, idx) => {
                   const populatedItems = section.items.map((itemConf) => {
                     let rawValues = [];
-                    if (itemConf.keyPattern) {
-                      Object.keys(job).forEach(k => { if (itemConf.keyPattern.test(k)) rawValues.push(...(Array.isArray(job[k]) ? job[k] : [job[k]])); });
-                    } else if (itemConf.keys) {
+                    if (itemConf.keys) {
                       itemConf.keys.forEach(k => { if (job[k] !== undefined) rawValues.push(...(Array.isArray(job[k]) ? job[k] : [job[k]])); });
+                    } else if (itemConf.keyPattern) {
+                      Object.keys(job).forEach(k => { if (itemConf.keyPattern.test(k)) rawValues.push(...(Array.isArray(job[k]) ? job[k] : [job[k]])); });
                     } else {
                       if (job[itemConf.key] !== undefined) rawValues.push(...(Array.isArray(job[itemConf.key]) ? job[itemConf.key] : [job[itemConf.key]]));
                     }
@@ -607,14 +659,14 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
 
                 <Divider sx={{ my: 1 }} />
 
-                {hasValidText(job.text) && (
+                {hasValidText(fullDescriptionText) && (
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
                     <Button variant="text" onClick={() => setIsDescExpanded(!isDescExpanded)} endIcon={isDescExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />} sx={{ textTransform: 'none', fontWeight: 600, color: 'primary.main', px: 0, justifyContent: 'flex-start', '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' } }}>
                       {isDescExpanded ? 'Hide Full Description' : 'Read Full Description'}
                     </Button>
                     <Collapse in={isDescExpanded} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
                       <Box sx={{ mt: 2, p: 3, bgcolor: '#ffffff', borderRadius: 2, border: '1px solid', borderColor: '#e2e8f0', borderLeft: '4px solid', borderLeftColor: 'primary.main', textAlign: 'left' }}>
-                        <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-line', lineHeight: 1.7, textAlign: 'left' }}>{job.text}</Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-line', lineHeight: 1.7, textAlign: 'left' }}>{fullDescriptionText}</Typography>
                       </Box>
                     </Collapse>
                   </Box>

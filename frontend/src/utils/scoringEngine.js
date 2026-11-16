@@ -100,6 +100,16 @@ const isSkillInText = (skill, text) => {
   return false;
 };
 
+// Helper to check multiple possible keys for a value in the job object
+const getJobValue = (job, keys) => {
+  for (const k of keys) {
+    if (job[k] !== undefined && isValidValue(job[k])) {
+      return job[k];
+    }
+  }
+  return null;
+};
+
 export function calculateJobMatch(job, profile) {
   if (!job || !profile) {
     return { 
@@ -120,29 +130,29 @@ export function calculateJobMatch(job, profile) {
   // ==========================================
 
   // A. Min Experience Years
-  const minExpKey = Object.keys(job).find(k => /^Min Experience Years/i.test(k));
+  const minExpKey = Object.keys(job).find(k => /^(Min Experience Years|min_experience_years)/i.test(k));
   if (minExpKey && isValidValue(job[minExpKey])) {
     const rawText = Array.isArray(job[minExpKey]) ? job[minExpKey].join(' ') : String(job[minExpKey]);
     const numMatch = rawText.match(/(\d+(\.\d+)?)/);
     const requiredYears = numMatch ? parseFloat(numMatch[1]) : 0;
 
-    expTotal += 35;
+    expTotal += 40; // Increased weight
     const candidateYears = getCandidateYears(profile);
 
     if (candidateYears >= requiredYears && requiredYears > 0) {
-      expEarned += 35;
+      expEarned += 40;
       itemStatuses["experience_Min Experience Years"] = { type: 'full', percentage: 100 };
     } else if (requiredYears > 0 && candidateYears > 0) {
       const pct = Math.round((candidateYears / requiredYears) * 100);
-      expEarned += Math.round((candidateYears / requiredYears) * 35);
+      expEarned += Math.round((candidateYears / requiredYears) * 40);
       itemStatuses["experience_Min Experience Years"] = { type: 'partial', percentage: pct };
     } else {
       itemStatuses["experience_Min Experience Years"] = { type: 'none', percentage: 0 };
     }
   }
 
-  // B. Hard Skills (Counting each individual array item as a point out of all items)
-  const hardSkillKeys = ["Hard Skills"];
+  // B. Hard Skills
+  const hardSkillKeys = ["hard_skills", "Hard Skills"];
   const jobReqSkills = [];
 
   hardSkillKeys.forEach((k) => {
@@ -158,7 +168,7 @@ export function calculateJobMatch(job, profile) {
   });
 
   if (jobReqSkills.length > 0) {
-    expTotal += 40;
+    expTotal += 50; // Increased weight
     const candidateSkills = (profile.skills || []).map(s => String(s).toLowerCase().trim()).filter(Boolean);
     let matchedSkillsCount = 0;
 
@@ -182,7 +192,7 @@ export function calculateJobMatch(job, profile) {
       ? Math.round((matchedSkillsCount / totalSkills) * 100) 
       : 0;
 
-    expEarned += Math.round((matchPercentage / 100) * 40);
+    expEarned += Math.round((matchPercentage / 100) * 50);
 
     if (matchPercentage >= 100) {
       itemStatuses["experience_Hard Skills"] = { type: 'full', percentage: 100 };
@@ -194,13 +204,14 @@ export function calculateJobMatch(job, profile) {
   }
 
   // C. Soft Skills
-  if (isValidValue(job["Soft Skills"])) {
-    expTotal += 25;
-    const rawText = Array.isArray(job["Soft Skills"]) ? job["Soft Skills"].join(' ') : String(job["Soft Skills"]);
+  const jobSoftSkills = getJobValue(job, ["soft_skills", "Soft Skills"]);
+  if (jobSoftSkills) {
+    expTotal += 10; // Reduced weight
+    const rawText = Array.isArray(jobSoftSkills) ? jobSoftSkills.join(' ') : String(jobSoftSkills);
     const cleanSoftText = rawText.replace(/\[Quote:\s*"?([^"\]]+)"?\]/gi, '').replace(/[\[\]"']/g, ' ').trim().toLowerCase();
     const candidateSoftSkills = profile.softSkills || {};
     const jobRequestedSkills = KNOWN_SOFT_SKILLS.filter(skill => isSkillInText(skill, cleanSoftText));
-    const totalRequired = Math.max(1, jobRequestedSkills.length || (Array.isArray(job["Soft Skills"]) ? job["Soft Skills"].length : 1));
+    const totalRequired = Math.max(1, jobRequestedSkills.length || (Array.isArray(jobSoftSkills) ? jobSoftSkills.length : 1));
     
     let matchedCount = 0;
     if (jobRequestedSkills.length > 0) {
@@ -211,11 +222,11 @@ export function calculateJobMatch(job, profile) {
     }
 
     if (matchedCount >= totalRequired && totalRequired > 0) {
-      expEarned += 25;
+      expEarned += 10;
       itemStatuses["experience_Soft Skills"] = { type: 'full', percentage: 100 };
     } else if (matchedCount > 0) {
       const pct = Math.round((matchedCount / totalRequired) * 100);
-      expEarned += Math.round((matchedCount / totalRequired) * 25);
+      expEarned += Math.round((matchedCount / totalRequired) * 10);
       itemStatuses["experience_Soft Skills"] = { type: 'partial', percentage: Math.min(pct, 90) };
     } else {
       itemStatuses["experience_Soft Skills"] = { type: 'none', percentage: 0 };
@@ -223,20 +234,22 @@ export function calculateJobMatch(job, profile) {
   }
 
   // ==========================================
-  // 2. EDUCATION SECTION (Unchanged structurally)
+  // 2. EDUCATION SECTION
   // ==========================================
   const candidateDegrees = profile.degrees || [];
   const candidateYears = getCandidateYears(profile);
-  const rawAccepting = job["Accepting Related Degrees or Experience"];
+  
+  const rawAccepting = getJobValue(job, ["accepting_related_degrees_or_experience", "Accepting Related Degrees or Experience"]);
   const acceptsRelatedOrExp = isValidValue(rawAccepting) && /yes|true|accepting|or equivalent/i.test(String(rawAccepting));
   const qualifiesViaRelatedOrExp = acceptsRelatedOrExp && (candidateDegrees.length > 0 || candidateYears >= 1);
 
   // A. Degree Types
-  const hasReqDegreeType = isValidValue(job["Degree Types"]);
+  const jobDegreeTypes = getJobValue(job, ["degree_types", "Degree Types"]);
+  const hasReqDegreeType = Boolean(jobDegreeTypes);
   let degreeTypeMatched = false;
   if (hasReqDegreeType) {
     eduTotal += 50;
-    degreeTypeMatched = checkDegreeTypeMatch(job["Degree Types"], candidateDegrees);
+    degreeTypeMatched = checkDegreeTypeMatch(jobDegreeTypes, candidateDegrees);
     if (degreeTypeMatched || qualifiesViaRelatedOrExp) {
       eduEarned += 50;
       itemStatuses["education_Degree Types"] = { type: 'full', percentage: 100 };
@@ -248,11 +261,12 @@ export function calculateJobMatch(job, profile) {
   }
 
   // B. Degree Names
-  const hasReqDegreeName = isValidValue(job["Degree Names"]);
+  const jobDegreeNames = getJobValue(job, ["degree_names", "Degree Names"]);
+  const hasReqDegreeName = Boolean(jobDegreeNames);
   let degreeNameMatched = false;
   if (hasReqDegreeName) {
     eduTotal += 40;
-    const rawJobNames = Array.isArray(job["Degree Names"]) ? job["Degree Names"].join(' ') : String(job["Degree Names"]);
+    const rawJobNames = Array.isArray(jobDegreeNames) ? jobDegreeNames.join(' ') : String(jobDegreeNames);
     const cleanJobNames = rawJobNames.replace(/\[Quote:\s*"?([^"\]]+)"?\]/gi, '').replace(/[\[\]"']/g, ' ').trim().toLowerCase();
 
     degreeNameMatched = candidateDegrees.some((d) => {
@@ -277,8 +291,9 @@ export function calculateJobMatch(job, profile) {
   }
 
   // C. University Only
-  if (isValidValue(job["University Only"])) {
-    const rawUni = String(job["University Only"]).trim().toLowerCase();
+  const jobUniOnly = getJobValue(job, ["university_only", "University Only"]);
+  if (jobUniOnly) {
+    const rawUni = String(jobUniOnly).trim().toLowerCase();
     const requiresUniOnly = /yes|true|only/i.test(rawUni);
     if (requiresUniOnly) {
       eduTotal += 10;
@@ -304,11 +319,12 @@ export function calculateJobMatch(job, profile) {
   // ==========================================
 
   // A. Advantage - Degree Types
-  if (isValidValue(job["Advantage - Degree Types"])) {
-    bonusTotal += 35;
-    const isAdvDegMatched = checkDegreeTypeMatch(job["Advantage - Degree Types"], candidateDegrees);
+  const advDegreeTypes = getJobValue(job, ["advantage_degree_types", "Advantage - Degree Types"]);
+  if (advDegreeTypes) {
+    bonusTotal += 40; // Increased weight
+    const isAdvDegMatched = checkDegreeTypeMatch(advDegreeTypes, candidateDegrees);
     if (isAdvDegMatched) {
-      bonusEarned += 35;
+      bonusEarned += 40;
       itemStatuses["advantages_Degree Types"] = { type: 'full', percentage: 100 };
     } else {
       itemStatuses["advantages_Degree Types"] = { type: 'none', percentage: 0 };
@@ -316,7 +332,7 @@ export function calculateJobMatch(job, profile) {
   }
 
   // B. Advantage - Hard Skills
-  const advHardSkillKeys = ["Advantage - Hard Skills"];
+  const advHardSkillKeys = ["advantage_hard_skills", "Advantage - Hard Skills"];
   const advJobReqSkills = [];
 
   advHardSkillKeys.forEach((k) => {
@@ -332,7 +348,7 @@ export function calculateJobMatch(job, profile) {
   });
 
   if (advJobReqSkills.length > 0) {
-    bonusTotal += 45;
+    bonusTotal += 50; // Increased weight
     const candidateSkills = (profile.skills || []).map(s => String(s).toLowerCase().trim()).filter(Boolean);
     let matchedAdvSkillsCount = 0;
 
@@ -356,25 +372,26 @@ export function calculateJobMatch(job, profile) {
       ? Math.round((matchedAdvSkillsCount / totalAdvSkills) * 100) 
       : 0;
 
-    bonusEarned += Math.round((advPercentage / 100) * 45);
+    bonusEarned += Math.round((advPercentage / 100) * 50);
 
     if (advPercentage >= 100) {
-      itemStatuses["advantages_Advantage - Hard Skills"] = { type: 'full', percentage: 100 };
+      itemStatuses["advantages_Hard Skills"] = { type: 'full', percentage: 100 };
     } else if (advPercentage > 0) {
-      itemStatuses["advantages_Advantage - Hard Skills"] = { type: 'partial', percentage: advPercentage };
+      itemStatuses["advantages_Hard Skills"] = { type: 'partial', percentage: advPercentage };
     } else {
-      itemStatuses["advantages_Advantage - Hard Skills"] = { type: 'none', percentage: 0 };
+      itemStatuses["advantages_Hard Skills"] = { type: 'none', percentage: 0 };
     }
   }
 
   // C. Advantage - Soft Skills
-  if (isValidValue(job["Advantage - Soft Skills"])) {
-    bonusTotal += 20;
-    const rawAdvSoft = Array.isArray(job["Advantage - Soft Skills"]) ? job["Advantage - Soft Skills"].join(' ') : String(job["Advantage - Soft Skills"]);
+  const advSoftSkills = getJobValue(job, ["advantage_soft_skills", "Advantage - Soft Skills"]);
+  if (advSoftSkills) {
+    bonusTotal += 10; // Reduced weight
+    const rawAdvSoft = Array.isArray(advSoftSkills) ? advSoftSkills.join(' ') : String(advSoftSkills);
     const cleanAdvSoft = rawAdvSoft.replace(/\[Quote:\s*"?([^"\]]+)"?\]/gi, '').replace(/[\[\]"']/g, ' ').trim().toLowerCase();
     const candidateSoftSkills = profile.softSkills || {};
     const jobRequestedAdvSkills = KNOWN_SOFT_SKILLS.filter(skill => isSkillInText(skill, cleanAdvSoft));
-    const totalAdvRequired = Math.max(1, jobRequestedAdvSkills.length || (Array.isArray(job["Advantage - Soft Skills"]) ? job["Advantage - Soft Skills"].length : 1));
+    const totalAdvRequired = Math.max(1, jobRequestedAdvSkills.length || (Array.isArray(advSoftSkills) ? advSoftSkills.length : 1));
     
     let matchedAdvCount = 0;
     if (jobRequestedAdvSkills.length > 0) {
@@ -385,11 +402,11 @@ export function calculateJobMatch(job, profile) {
     }
 
     if (matchedAdvCount >= totalAdvRequired && totalAdvRequired > 0) {
-      bonusEarned += 20;
+      bonusEarned += 10;
       itemStatuses["advantages_Soft Skills"] = { type: 'full', percentage: 100 };
     } else if (matchedAdvCount > 0) {
       const pct = Math.round((matchedAdvCount / totalAdvRequired) * 100);
-      bonusEarned += Math.round((matchedAdvCount / totalAdvRequired) * 20);
+      bonusEarned += Math.round((matchedAdvCount / totalAdvRequired) * 10);
       itemStatuses["advantages_Soft Skills"] = { type: 'partial', percentage: Math.min(pct, 90) };
     } else {
       itemStatuses["advantages_Soft Skills"] = { type: 'none', percentage: 0 };
