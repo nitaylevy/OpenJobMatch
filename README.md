@@ -105,4 +105,4 @@ To parse and add your own resumes into the evaluation dataset:
 <img width="800" alt="Resume Profile Details" src="https://github.com/user-attachments/assets/2767863f-5068-4fb8-a54d-3c576857812e" />
 
 ### Extracted Jobs & Match Scoring
-<img width="800" alt="Extracted Jobs and Match Scoring" src="https://github.com/user-attachments/assets/9c790e32-d4d7-466b-a2ba-2ace16eb127b" />
+<img width="800" alt="Extracted Jobs and Match Scoring" src="https://github.com/user-attachments/assets/09bbf6e5-a655-497c-944f-8cb9993a9f80" />
