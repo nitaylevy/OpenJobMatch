@@ -115,7 +115,11 @@ export function calculateJobMatch(job, profile) {
     return { 
       mandatory: 0, 
       advantages: null, 
-      sections: { experience: 0, education: 0, advantages: 0 },
+      sections: { 
+        experience: { score: 0, globalEarnedPct: 0, globalMaxPct: 0 }, 
+        education: { score: 0, globalEarnedPct: 0, globalMaxPct: 0 }, 
+        advantages: { score: 0, globalEarnedPct: 0, globalMaxPct: 0 } 
+      },
       itemStatuses: {} 
     };
   }
@@ -128,6 +132,7 @@ export function calculateJobMatch(job, profile) {
   // ==========================================
   // 1. EXPERIENCE & SKILLS SECTION
   // ==========================================
+  let expItems = [];
 
   // A. Min Experience Years
   const minExpKey = Object.keys(job).find(k => /^(Min Experience Years|min_experience_years)/i.test(k));
@@ -135,40 +140,30 @@ export function calculateJobMatch(job, profile) {
     const rawText = Array.isArray(job[minExpKey]) ? job[minExpKey].join(' ') : String(job[minExpKey]);
     const numMatch = rawText.match(/(\d+(\.\d+)?)/);
     const requiredYears = numMatch ? parseFloat(numMatch[1]) : 0;
-
-    expTotal += 40; // Increased weight
     const candidateYears = getCandidateYears(profile);
 
+    let frac = 0, pct = 0;
     if (candidateYears >= requiredYears && requiredYears > 0) {
-      expEarned += 40;
-      itemStatuses["experience_Min Experience Years"] = { type: 'full', percentage: 100 };
+      frac = 1; pct = 100;
     } else if (requiredYears > 0 && candidateYears > 0) {
-      const pct = Math.round((candidateYears / requiredYears) * 100);
-      expEarned += Math.round((candidateYears / requiredYears) * 40);
-      itemStatuses["experience_Min Experience Years"] = { type: 'partial', percentage: pct };
-    } else {
-      itemStatuses["experience_Min Experience Years"] = { type: 'none', percentage: 0 };
+      frac = candidateYears / requiredYears; 
+      pct = Math.round(frac * 100);
     }
+    expItems.push({ key: "experience_Min Experience Years", baseW: 40, frac, pct });
   }
 
   // B. Hard Skills
   const hardSkillKeys = ["hard_skills", "Hard Skills"];
   const jobReqSkills = [];
-
   hardSkillKeys.forEach((k) => {
     if (isValidValue(job[k])) {
-      if (Array.isArray(job[k])) {
-        job[k].forEach((item) => {
-          if (isValidValue(item)) jobReqSkills.push(cleanItemString(item));
-        });
-      } else {
-        jobReqSkills.push(cleanItemString(job[k]));
-      }
+      (Array.isArray(job[k]) ? job[k] : [job[k]]).forEach((item) => {
+        if (isValidValue(item)) jobReqSkills.push(cleanItemString(item));
+      });
     }
   });
 
   if (jobReqSkills.length > 0) {
-    expTotal += 50; // Increased weight
     const candidateSkills = (profile.skills || []).map(s => String(s).toLowerCase().trim()).filter(Boolean);
     let matchedSkillsCount = 0;
 
@@ -178,35 +173,24 @@ export function calculateJobMatch(job, profile) {
         const cleanSkill = skill.toLowerCase().trim();
         if (!cleanSkill) return false;
         if (item === cleanSkill) return true;
-
         const escapedSkill = cleanSkill.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const fullSkillRegex = new RegExp(`(^|\\b|\\s)${escapedSkill}(\\b|\\s|$)`, 'i');
-        return fullSkillRegex.test(item);
+        return new RegExp(`(^|\\b|\\s)${escapedSkill}(\\b|\\s|$)`, 'i').test(item);
       });
-
       if (isMatched) matchedSkillsCount++;
     });
 
     const totalSkills = jobReqSkills.length;
-    const matchPercentage = totalSkills > 0 
-      ? Math.round((matchedSkillsCount / totalSkills) * 100) 
-      : 0;
-
-    expEarned += Math.round((matchPercentage / 100) * 50);
-
-    if (matchPercentage >= 100) {
-      itemStatuses["experience_Hard Skills"] = { type: 'full', percentage: 100 };
-    } else if (matchPercentage > 0) {
-      itemStatuses["experience_Hard Skills"] = { type: 'partial', percentage: matchPercentage };
-    } else {
-      itemStatuses["experience_Hard Skills"] = { type: 'none', percentage: 0 };
-    }
+    let frac = totalSkills > 0 ? (matchedSkillsCount / totalSkills) : 0;
+    expItems.push({ key: "experience_Hard Skills", baseW: 50, frac, pct: Math.round(frac * 100) });
   }
 
   // C. Soft Skills
   const jobSoftSkills = getJobValue(job, ["soft_skills", "Soft Skills"]);
+  let hasExpSoft = false;
+  let expSoftFrac = 0, expSoftPct = 0;
+
   if (jobSoftSkills) {
-    expTotal += 10; // Reduced weight
+    hasExpSoft = true;
     const rawText = Array.isArray(jobSoftSkills) ? jobSoftSkills.join(' ') : String(jobSoftSkills);
     const cleanSoftText = rawText.replace(/\[Quote:\s*"?([^"\]]+)"?\]/gi, '').replace(/[\[\]"']/g, ' ').trim().toLowerCase();
     const candidateSoftSkills = profile.softSkills || {};
@@ -222,20 +206,37 @@ export function calculateJobMatch(job, profile) {
     }
 
     if (matchedCount >= totalRequired && totalRequired > 0) {
-      expEarned += 10;
-      itemStatuses["experience_Soft Skills"] = { type: 'full', percentage: 100 };
+      expSoftFrac = 1; expSoftPct = 100;
     } else if (matchedCount > 0) {
-      const pct = Math.round((matchedCount / totalRequired) * 100);
-      expEarned += Math.round((matchedCount / totalRequired) * 10);
-      itemStatuses["experience_Soft Skills"] = { type: 'partial', percentage: Math.min(pct, 90) };
-    } else {
-      itemStatuses["experience_Soft Skills"] = { type: 'none', percentage: 0 };
+      expSoftFrac = matchedCount / totalRequired; 
+      expSoftPct = Math.round(expSoftFrac * 100);
     }
   }
+
+  // Soft Skills are exactly 10% of the section (W_soft = W_others / 9)
+  let expOtherTotal = expItems.reduce((sum, item) => sum + item.baseW, 0);
+  if (hasExpSoft) {
+    let softW = expOtherTotal > 0 ? (expOtherTotal / 9) : 100;
+    expItems.push({ 
+      key: "experience_Soft Skills", 
+      baseW: softW, 
+      frac: expSoftFrac, 
+      pct: expSoftFrac >= 1 ? 100 : Math.min(expSoftPct, 90) 
+    });
+  }
+
+  expItems.forEach(item => {
+    expTotal += item.baseW;
+    let earned = item.frac * item.baseW;
+    expEarned += earned;
+    let type = item.frac >= 1 ? 'full' : item.frac > 0 ? 'partial' : 'none';
+    itemStatuses[item.key] = { type, percentage: item.pct, earnedWeight: earned, maxWeight: item.baseW };
+  });
 
   // ==========================================
   // 2. EDUCATION SECTION
   // ==========================================
+  let eduItems = [];
   const candidateDegrees = profile.degrees || [];
   const candidateYears = getCandidateYears(profile);
   
@@ -245,27 +246,21 @@ export function calculateJobMatch(job, profile) {
 
   // A. Degree Types
   const jobDegreeTypes = getJobValue(job, ["degree_types", "Degree Types"]);
-  const hasReqDegreeType = Boolean(jobDegreeTypes);
+  let hasReqDegreeType = Boolean(jobDegreeTypes);
   let degreeTypeMatched = false;
   if (hasReqDegreeType) {
-    eduTotal += 50;
     degreeTypeMatched = checkDegreeTypeMatch(jobDegreeTypes, candidateDegrees);
-    if (degreeTypeMatched || qualifiesViaRelatedOrExp) {
-      eduEarned += 50;
-      itemStatuses["education_Degree Types"] = { type: 'full', percentage: 100 };
-    } else if (candidateDegrees.some(d => Boolean(d.degreeType))) {
-      itemStatuses["education_Degree Types"] = { type: 'partial', percentage: 50 };
-    } else {
-      itemStatuses["education_Degree Types"] = { type: 'none', percentage: 0 };
-    }
+    let frac = 0, pct = 0;
+    if (degreeTypeMatched || qualifiesViaRelatedOrExp) { frac = 1; pct = 100; }
+    else if (candidateDegrees.some(d => Boolean(d.degreeType))) { frac = 0.5; pct = 50; }
+    eduItems.push({ key: "education_Degree Types", baseW: 50, frac, pct });
   }
 
   // B. Degree Names
   const jobDegreeNames = getJobValue(job, ["degree_names", "Degree Names"]);
-  const hasReqDegreeName = Boolean(jobDegreeNames);
+  let hasReqDegreeName = Boolean(jobDegreeNames);
   let degreeNameMatched = false;
   if (hasReqDegreeName) {
-    eduTotal += 40;
     const rawJobNames = Array.isArray(jobDegreeNames) ? jobDegreeNames.join(' ') : String(jobDegreeNames);
     const cleanJobNames = rawJobNames.replace(/\[Quote:\s*"?([^"\]]+)"?\]/gi, '').replace(/[\[\]"']/g, ' ').trim().toLowerCase();
 
@@ -280,75 +275,66 @@ export function calculateJobMatch(job, profile) {
       return candidateTokens.some(token => cleanJobNames.includes(token));
     });
 
-    if (degreeNameMatched || qualifiesViaRelatedOrExp) {
-      eduEarned += 40;
-      itemStatuses["education_Degree Names"] = { type: 'full', percentage: 100 };
-    } else if (candidateDegrees.some(d => Boolean(d.degreeName))) {
-      itemStatuses["education_Degree Names"] = { type: 'partial', percentage: 40 };
-    } else {
-      itemStatuses["education_Degree Names"] = { type: 'none', percentage: 0 };
-    }
+    let frac = 0, pct = 0;
+    if (degreeNameMatched || qualifiesViaRelatedOrExp) { frac = 1; pct = 100; }
+    else if (candidateDegrees.some(d => Boolean(d.degreeName))) { frac = 0.4; pct = 40; }
+    eduItems.push({ key: "education_Degree Names", baseW: 40, frac, pct });
   }
 
   // C. University Only
   const jobUniOnly = getJobValue(job, ["university_only", "University Only"]);
-  if (jobUniOnly) {
-    const rawUni = String(jobUniOnly).trim().toLowerCase();
-    const requiresUniOnly = /yes|true|only/i.test(rawUni);
-    if (requiresUniOnly) {
-      eduTotal += 10;
-      const hasUni = candidateDegrees.some(d => (d.institutionType || '').toLowerCase() === 'university');
-      if (hasUni || qualifiesViaRelatedOrExp) {
-        eduEarned += 10;
-        itemStatuses["education_University Only"] = { type: 'full', percentage: 100 };
-      } else {
-        itemStatuses["education_University Only"] = { type: 'none', percentage: 0 };
-      }
-    }
+  if (jobUniOnly && /yes|true|only/i.test(String(jobUniOnly).trim().toLowerCase())) {
+    const hasUni = candidateDegrees.some(d => (d.institutionType || '').toLowerCase() === 'university');
+    let frac = (hasUni || qualifiesViaRelatedOrExp) ? 1 : 0;
+    eduItems.push({ key: "education_University Only", baseW: 10, frac, pct: frac * 100 });
   }
 
+  eduItems.forEach(item => {
+    eduTotal += item.baseW;
+    let earned = item.frac * item.baseW;
+    eduEarned += earned;
+    let type = item.frac >= 1 ? 'full' : item.frac > 0 ? 'partial' : 'none';
+    itemStatuses[item.key] = { type, percentage: item.pct, earnedWeight: earned, maxWeight: item.baseW };
+  });
+
+  // Override entire section if Qualifies via Equivalent Experience
   if ((!hasReqDegreeType || degreeTypeMatched || qualifiesViaRelatedOrExp) &&
       (!hasReqDegreeName || degreeNameMatched || qualifiesViaRelatedOrExp)) {
     if (eduTotal > 0 && eduEarned < eduTotal) {
       eduEarned = eduTotal;
+      eduItems.forEach(item => {
+        itemStatuses[item.key].earnedWeight = item.baseW;
+        itemStatuses[item.key].percentage = 100;
+        itemStatuses[item.key].type = 'full';
+      });
     }
   }
 
   // ==========================================
   // 3. ADVANTAGES SECTION (Nice-to-Have)
   // ==========================================
+  let advItems = [];
 
   // A. Advantage - Degree Types
   const advDegreeTypes = getJobValue(job, ["advantage_degree_types", "Advantage - Degree Types"]);
   if (advDegreeTypes) {
-    bonusTotal += 40; // Increased weight
     const isAdvDegMatched = checkDegreeTypeMatch(advDegreeTypes, candidateDegrees);
-    if (isAdvDegMatched) {
-      bonusEarned += 40;
-      itemStatuses["advantages_Degree Types"] = { type: 'full', percentage: 100 };
-    } else {
-      itemStatuses["advantages_Degree Types"] = { type: 'none', percentage: 0 };
-    }
+    let frac = isAdvDegMatched ? 1 : 0;
+    advItems.push({ key: "advantages_Degree Types", baseW: 40, frac, pct: frac * 100 });
   }
 
   // B. Advantage - Hard Skills
   const advHardSkillKeys = ["advantage_hard_skills", "Advantage - Hard Skills"];
   const advJobReqSkills = [];
-
   advHardSkillKeys.forEach((k) => {
     if (isValidValue(job[k])) {
-      if (Array.isArray(job[k])) {
-        job[k].forEach((item) => {
-          if (isValidValue(item)) advJobReqSkills.push(cleanItemString(item));
-        });
-      } else {
-        advJobReqSkills.push(cleanItemString(job[k]));
-      }
+      (Array.isArray(job[k]) ? job[k] : [job[k]]).forEach((item) => {
+        if (isValidValue(item)) advJobReqSkills.push(cleanItemString(item));
+      });
     }
   });
 
   if (advJobReqSkills.length > 0) {
-    bonusTotal += 50; // Increased weight
     const candidateSkills = (profile.skills || []).map(s => String(s).toLowerCase().trim()).filter(Boolean);
     let matchedAdvSkillsCount = 0;
 
@@ -358,35 +344,24 @@ export function calculateJobMatch(job, profile) {
         const cleanSkill = skill.toLowerCase().trim();
         if (!cleanSkill) return false;
         if (item === cleanSkill) return true;
-
         const escapedSkill = cleanSkill.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const fullSkillRegex = new RegExp(`(^|\\b|\\s)${escapedSkill}(\\b|\\s|$)`, 'i');
-        return fullSkillRegex.test(item);
+        return new RegExp(`(^|\\b|\\s)${escapedSkill}(\\b|\\s|$)`, 'i').test(item);
       });
-
       if (isMatched) matchedAdvSkillsCount++;
     });
 
     const totalAdvSkills = advJobReqSkills.length;
-    const advPercentage = totalAdvSkills > 0 
-      ? Math.round((matchedAdvSkillsCount / totalAdvSkills) * 100) 
-      : 0;
-
-    bonusEarned += Math.round((advPercentage / 100) * 50);
-
-    if (advPercentage >= 100) {
-      itemStatuses["advantages_Hard Skills"] = { type: 'full', percentage: 100 };
-    } else if (advPercentage > 0) {
-      itemStatuses["advantages_Hard Skills"] = { type: 'partial', percentage: advPercentage };
-    } else {
-      itemStatuses["advantages_Hard Skills"] = { type: 'none', percentage: 0 };
-    }
+    let frac = totalAdvSkills > 0 ? (matchedAdvSkillsCount / totalAdvSkills) : 0;
+    advItems.push({ key: "advantages_Hard Skills", baseW: 50, frac, pct: Math.round(frac * 100) });
   }
 
   // C. Advantage - Soft Skills
   const advSoftSkills = getJobValue(job, ["advantage_soft_skills", "Advantage - Soft Skills"]);
+  let hasAdvSoft = false;
+  let advSoftFrac = 0, advSoftPct = 0;
+
   if (advSoftSkills) {
-    bonusTotal += 10; // Reduced weight
+    hasAdvSoft = true;
     const rawAdvSoft = Array.isArray(advSoftSkills) ? advSoftSkills.join(' ') : String(advSoftSkills);
     const cleanAdvSoft = rawAdvSoft.replace(/\[Quote:\s*"?([^"\]]+)"?\]/gi, '').replace(/[\[\]"']/g, ' ').trim().toLowerCase();
     const candidateSoftSkills = profile.softSkills || {};
@@ -402,31 +377,103 @@ export function calculateJobMatch(job, profile) {
     }
 
     if (matchedAdvCount >= totalAdvRequired && totalAdvRequired > 0) {
-      bonusEarned += 10;
-      itemStatuses["advantages_Soft Skills"] = { type: 'full', percentage: 100 };
+      advSoftFrac = 1; advSoftPct = 100;
     } else if (matchedAdvCount > 0) {
-      const pct = Math.round((matchedAdvCount / totalAdvRequired) * 100);
-      bonusEarned += Math.round((matchedAdvCount / totalAdvRequired) * 10);
-      itemStatuses["advantages_Soft Skills"] = { type: 'partial', percentage: Math.min(pct, 90) };
-    } else {
-      itemStatuses["advantages_Soft Skills"] = { type: 'none', percentage: 0 };
+      advSoftFrac = matchedAdvCount / totalAdvRequired; 
+      advSoftPct = Math.round(advSoftFrac * 100);
     }
   }
+
+  // Soft Skills are exactly 10% of the section (W_soft = W_others / 9)
+  let advOtherTotal = advItems.reduce((sum, item) => sum + item.baseW, 0);
+  if (hasAdvSoft) {
+    let softW = advOtherTotal > 0 ? (advOtherTotal / 9) : 100;
+    advItems.push({ 
+      key: "advantages_Soft Skills", 
+      baseW: softW, 
+      frac: advSoftFrac, 
+      pct: advSoftFrac >= 1 ? 100 : Math.min(advSoftPct, 90) 
+    });
+  }
+
+  advItems.forEach(item => {
+    bonusTotal += item.baseW;
+    let earned = item.frac * item.baseW;
+    bonusEarned += earned;
+    let type = item.frac >= 1 ? 'full' : item.frac > 0 ? 'partial' : 'none';
+    itemStatuses[item.key] = { type, percentage: item.pct, earnedWeight: earned, maxWeight: item.baseW };
+  });
+
+  // ==========================================
+  // FINAL CALCULATIONS
+  // ==========================================
+  let overallMandatory = 100;
+  let expOverallWeight = 0;
+  let eduOverallWeight = 0;
+
+  // Enforce 50/50 split if both sections exist
+  if (expTotal > 0 && eduTotal > 0) {
+    const expRatio = expEarned / expTotal;
+    const eduRatio = eduEarned / eduTotal;
+    overallMandatory = Math.round(((expRatio + eduRatio) / 2) * 100);
+    expOverallWeight = 50;
+    eduOverallWeight = 50;
+  } else if (expTotal > 0) {
+    overallMandatory = Math.round((expEarned / expTotal) * 100);
+    expOverallWeight = 100;
+    eduOverallWeight = 0;
+  } else if (eduTotal > 0) {
+    overallMandatory = Math.round((eduEarned / eduTotal) * 100);
+    expOverallWeight = 0;
+    eduOverallWeight = 100;
+  }
+  
+  // Calculate global equivalent percentages for sub-sections based on their parent's fixed weight
+  Object.keys(itemStatuses).forEach(key => {
+    const item = itemStatuses[key];
+    if (item.maxWeight === undefined) return;
+
+    if (key.startsWith("advantages_")) {
+      if (bonusTotal > 0) {
+        item.globalEarnedPct = Math.round((item.earnedWeight / bonusTotal) * 100);
+        item.globalMaxPct = Math.round((item.maxWeight / bonusTotal) * 100);
+      }
+    } else if (key.startsWith("experience_")) {
+      if (expTotal > 0) {
+        item.globalEarnedPct = Math.round((item.earnedWeight / expTotal) * expOverallWeight);
+        item.globalMaxPct = Math.round((item.maxWeight / expTotal) * expOverallWeight);
+      }
+    } else if (key.startsWith("education_")) {
+      if (eduTotal > 0) {
+        item.globalEarnedPct = Math.round((item.earnedWeight / eduTotal) * eduOverallWeight);
+        item.globalMaxPct = Math.round((item.maxWeight / eduTotal) * eduOverallWeight);
+      }
+    }
+  });
 
   const experienceScore = expTotal > 0 ? Math.round((expEarned / expTotal) * 100) : 100;
   const educationScore = eduTotal > 0 ? Math.round((eduEarned / eduTotal) * 100) : 100;
   const advantagesScore = bonusTotal > 0 ? Math.round((bonusEarned / bonusTotal) * 100) : null;
-  const mandatoryTotal = expTotal + eduTotal;
-  const mandatoryEarned = expEarned + eduEarned;
-  const overallMandatory = mandatoryTotal > 0 ? Math.round((mandatoryEarned / mandatoryTotal) * 100) : 100;
 
   return {
     mandatory: overallMandatory,
     advantages: advantagesScore,
     sections: {
-      experience: experienceScore,
-      education: educationScore,
-      advantages: advantagesScore ?? 0,
+      experience: { 
+        score: experienceScore, 
+        globalEarnedPct: expTotal > 0 ? Math.round((expEarned / expTotal) * expOverallWeight) : 0, 
+        globalMaxPct: expOverallWeight 
+      },
+      education: { 
+        score: educationScore, 
+        globalEarnedPct: eduTotal > 0 ? Math.round((eduEarned / eduTotal) * eduOverallWeight) : 0, 
+        globalMaxPct: eduOverallWeight 
+      },
+      advantages: { 
+        score: advantagesScore ?? 0, 
+        globalEarnedPct: advantagesScore ?? 0, 
+        globalMaxPct: bonusTotal > 0 ? 100 : 0 
+      },
     },
     itemStatuses,
   };

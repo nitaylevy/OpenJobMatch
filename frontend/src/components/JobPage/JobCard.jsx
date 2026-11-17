@@ -55,11 +55,10 @@ const ATTRIBUTE_SECTIONS = [
   }
 ];
 
-// Helper to convert "2026-11-14 15:36 UTC" to "X hours ago" or "X days ago"
 const getRelativeTime = (dateStr) => {
   if (!dateStr) return '';
   const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return dateStr; // fallback if parsing fails
+  if (isNaN(date.getTime())) return dateStr; 
 
   const diffInHours = Math.floor((new Date() - date) / (1000 * 60 * 60));
 
@@ -113,7 +112,6 @@ const HighlightedText = ({ text, skillsToHighlight = [] }) => {
   );
 };
 
-// Item component with per-bullet interactive quote toggling across all sections
 const AttributeItem = ({ itemStr, shouldHighlight = false, candidateSkills = [], preferQuote = false, labelPrefix = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { mainText, quote } = parseItemString(itemStr);
@@ -202,13 +200,20 @@ const AttributeItem = ({ itemStr, shouldHighlight = false, candidateSkills = [],
 
 const StatusIcon = ({ matchInfo }) => {
   if (!matchInfo) return null;
-  const { type, percentage } = matchInfo;
-  if (type === 'full') return <Tooltip title={`Complete Match (${percentage ?? 100}%)`}><CheckCircle2 size={18} color="#15803d" /></Tooltip>;
-  if (type === 'partial') return <Tooltip title={`Partial Match (${percentage}%)`}><CircleDot size={18} color="#d97706" /></Tooltip>;
-  return <Tooltip title={`No Match (${percentage ?? 0}%)`}><XCircle size={18} color="#b91c1c" /></Tooltip>;
+  const { type, percentage, globalEarnedPct, globalMaxPct } = matchInfo;
+  
+  let tooltipText = '';
+  if (globalMaxPct !== undefined && globalMaxPct > 0) {
+    tooltipText = `${type === 'full' ? 'Complete' : type === 'partial' ? 'Partial' : 'No'} Match (${globalEarnedPct}% / ${globalMaxPct}%)`;
+  } else {
+    tooltipText = `${type === 'full' ? 'Complete' : type === 'partial' ? 'Partial' : 'No'} Match (${percentage ?? (type === 'full' ? 100 : 0)}%)`;
+  }
+
+  if (type === 'full') return <Tooltip title={tooltipText}><CheckCircle2 size={18} color="#15803d" /></Tooltip>;
+  if (type === 'partial') return <Tooltip title={tooltipText}><CircleDot size={18} color="#d97706" /></Tooltip>;
+  return <Tooltip title={tooltipText}><XCircle size={18} color="#b91c1c" /></Tooltip>;
 };
 
-// Unified box specifically for Education Requirements
 const EducationSectionBox = ({ populatedItems }) => {
   const validEducationList = populatedItems.flatMap(itemConf => {
     return itemConf.validItems.map(rawVal => ({
@@ -270,7 +275,16 @@ const AttributeSectionBox = ({ itemConf, sectionKey, activeProfile, handleOpenAd
               Add Missing Skills
             </Button>
           )}
-          {matchInfo && <StatusIcon matchInfo={matchInfo} />}
+          {matchInfo && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+              {matchInfo.globalMaxPct !== undefined && matchInfo.globalMaxPct > 0 && (
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', bgcolor: '#f8fafc', px: 1, py: 0.25, borderRadius: 1, border: '1px solid #e2e8f0' }}>
+                  {matchInfo.globalEarnedPct}% / {matchInfo.globalMaxPct}%
+                </Typography>
+              )}
+              <StatusIcon matchInfo={matchInfo} />
+            </Box>
+          )}
         </Box>
       </Box>
       <Box 
@@ -338,7 +352,6 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
   const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   
-  // All section accordions open by default
   const [openSections, setOpenSections] = useState({ 
     responsibilities: true, 
     experience: true, 
@@ -358,12 +371,10 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
 
   const toggleSection = (key) => setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
 
-  // Fallback data mapping for new Athena S3 JSON format
   const displayTitle = job.title || job.job_title;
   const displayCompany = job.company || job.company_name;
   const fullDescriptionText = job.content_full || job.text;
 
-  // Generate LinkedIn Leads URL for the company
   const linkedInLeadsUrl = useMemo(() => {
     return generateLinkedInLeadsUrl ? generateLinkedInLeadsUrl(displayCompany) : '';
   }, [displayCompany]);
@@ -461,11 +472,9 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
     return (Array.isArray(raw) ? raw : [raw]).filter(isValidMetadataString);
   }, [job]);
 
-  const getSectionScore = (sectionKey) => {
-    if (!precomputedScores) return null;
-    if (sectionKey === "advantages") return precomputedScores.advantages ?? null;
-    if (precomputedScores.sections && precomputedScores.sections[sectionKey] !== undefined) return precomputedScores.sections[sectionKey];
-    return precomputedScores.mandatory ?? null;
+  const getSectionData = (sectionKey) => {
+    if (!precomputedScores || !precomputedScores.sections) return null;
+    return precomputedScores.sections[sectionKey] || null;
   };
 
   return (
@@ -600,9 +609,18 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
 
                   if (populatedItems.length === 0) return null;
                   const SectionIcon = section.icon;
-                  const sectionScore = getSectionScore(section.key);
-                  const sectionTheme = sectionScore !== null ? getScoreTheme(sectionScore) : null;
                   const isSectionOpen = Boolean(openSections[section.key]);
+
+                  const sectionData = getSectionData(section.key);
+                  const sectionScore = sectionData?.score ?? null;
+                  const sectionTheme = sectionScore !== null ? getScoreTheme(sectionScore) : null;
+                  
+                  let matchLabel = '';
+                  if (sectionData && sectionData.globalMaxPct > 0) {
+                    matchLabel = `Match: ${sectionData.globalEarnedPct}% / ${sectionData.globalMaxPct}%`;
+                  } else if (sectionScore !== null) {
+                    matchLabel = `Match: ${sectionScore}%`;
+                  }
 
                   return (
                     <Box key={idx} sx={{ textAlign: 'left' }}>
@@ -612,7 +630,7 @@ export default function JobCard({ job, precomputedScores, candidateSkills = [], 
                           <Typography variant="h6" fontWeight={700} sx={{ color: '#0f172a' }}>{section.title}</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                          {sectionScore !== null && <Chip label={`Match: ${sectionScore}%`} size="small" sx={{ fontWeight: 700, bgcolor: sectionTheme.bg, color: sectionTheme.text, border: '1px solid', borderColor: sectionTheme.border, borderRadius: 1.5, px: 0.5 }} />}
+                          {matchLabel && <Chip label={matchLabel} size="small" sx={{ fontWeight: 700, bgcolor: sectionTheme.bg, color: sectionTheme.text, border: '1px solid', borderColor: sectionTheme.border, borderRadius: 1.5, px: 0.5 }} />}
                           <IconButton size="small" sx={{ color: 'text.secondary' }}>{isSectionOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</IconButton>
                         </Box>
                       </Box>
