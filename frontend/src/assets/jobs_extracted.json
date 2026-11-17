@@ -26,6 +26,7 @@
       "[ETL [Quote: \"building ETL processes\"]]",
       "[Pub/Sub [Quote: \"working with big-data technologies such as Pub/Sub\"]]",
       "[Terraform [Quote: \"Familiarity with Terraform\"]]",
+      "[CI/CD [Quote: \"Familiarity with CI/CD methodologies\"]]",
       "[Data Pipelines [Quote: \"Experience building or operating data pipelines\"]]",
       "[SaaS [Quote: \"SaaS production cloud environment\"]]",
       "[AI [Quote: \"uses AI effectively\"]]"
@@ -38,7 +39,7 @@
     "Advantage - Grade": "None [Quote: \"None\"]",
     "Advantage - Soft Skills": [],
     "Advantage - Hard Skills": [
-      "[C/C# [Quote: \"Experience with C/C#\"]]",
+      "[C/C++ [Quote: \"Experience with C/C#\"]]",
       "[Google Cloud Platform [Quote: \"Familiarity with Google Cloud Platform\"]]"
     ]
   },
@@ -61,6 +62,7 @@
     ],
     "Soft Skills": [],
     "Hard Skills": [
+      "[ETL Processes [Quote: \"Experience developing ETL processes in a Data Warehouse (DWH) environment.\"]]",
       "[Dataform [Quote: \"Experience developing with Dataform, including Incremental Tables, SQLX, JavaScript, Dependencies, Tags, and postOps.\"]]",
       "[SQL [Quote: \"Strong proficiency in SQL.\"]]",
       "[BigQuery [Quote: \"In-depth knowledge of BigQuery architecture and functionality.\"]]",
@@ -121,7 +123,7 @@
       "[Cassandra [Quote: \"Experience with NoSQL databases such as DynamoDB or Cassandra.\"]]",
       "[Scala [Quote: \"Knowledge of Scala or Java.\"]]",
       "[Java [Quote: \"Knowledge of Scala or Java.\"]]",
-      "[processing. [Quote: \"Experience with streaming or near real-time data processing.\"]]",
+      "[Streaming Data Processing [Quote: \"Experience with streaming or near real-time data processing.\"]]",
       "[Graph Databases [Quote: \"Familiarity with graph databases.\"]]"
     ],
     "Advantage - Degree Types": "None [Quote: \"None\"]",
@@ -162,8 +164,8 @@
       "[Pillow [Quote: \"Pillow\"]]",
       "[Librosa [Quote: \"Librosa\"]]",
       "[Data Scraping [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
-      "[extraction, [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
-      "[filtering, [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
+      "[Data Extraction [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
+      "[Data Filtering [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
       "[Dataset Curation [Quote: \"Extensive, proven experience in large-scale data scraping, extraction, filtering, and systematic dataset curation\"]]",
       "[Structured Dataset Versioning [Quote: \"Demonstrated track record managing structured dataset versioning, large-scale storage, and lifecycle management\"]]",
       "[Large-Scale Storage [Quote: \"Demonstrated track record managing structured dataset versioning, large-scale storage, and lifecycle management\"]]",
@@ -228,6 +230,7 @@
     ],
     "Hard Skills": [
       "[SQL [Quote: \"and enjoy SQL\"]]",
+      "[Machine Learning [Quote: \"ML\"]]",
       "[Python [Quote: \"Write Python comfortably\"]]",
       "[Statistics [Quote: \"Understand the math behind ML and statistics\"]]"
     ],
@@ -239,7 +242,14 @@
     "Advantage - Grade": "None [Quote: \"None\"]",
     "Advantage - Soft Skills": [],
     "Advantage - Hard Skills": [
-      "[Analytical Databases [Quote: \"analytical databases\"]]"
+      "[Data Build Tooling [Quote: \"dbt\"]]",
+      "[Data Orchestration [Quote: \"Dagster, Airflow\"]]",
+      "[Data Visualization [Quote: \"Cube, Superset or Tableau\"]]",
+      "[Large Language Model APIs [Quote: \"LLM APIs\"]]",
+      "[Analytical Databases [Quote: \"analytical databases\"]]",
+      "[Vertica [Quote: \"Vertica\"]]",
+      "[BigQuery [Quote: \"BigQuery\"]]",
+      "[Snowflake [Quote: \"Snowflake\"]]"
     ]
   },
   {
@@ -312,10 +322,20 @@
       "[DevOps [Quote: \"Experience as a sole DevOps engineer, technical lead, or in a role with broad ownership of product infrastructure.\"]]",
       "[Cloud-Native Infrastructure [Quote: \"Hands-on experience building and maintaining cloud-native infrastructure in a public cloud environment.\"]]",
       "[Kubernetes [Quote: \"Significant experience with Kubernetes\"]]",
+      "[Docker [Quote: \"Significant experience with Docker\"]]",
+      "[Helm [Quote: \"Significant experience with Helm\"]]",
+      "[Terraform [Quote: \"Significant experience with Terraform\"]]",
       "[CI/CD [Quote: \"Experience with CI/CD\"]]",
+      "[GitHub Actions [Quote: \"Experience with GitHub Actions\"]]",
+      "[GitOps [Quote: \"Experience with GitOps\"]]",
+      "[Argo CD [Quote: \"Experience with Argo CD\"]]",
       "[Prometheus [Quote: \"Experience with Prometheus\"]]",
+      "[Observability [Quote: \"Experience with observability\"]]",
+      "[Monitoring [Quote: \"Experience with monitoring\"]]",
+      "[Alerting Systems [Quote: \"Experience with alerting systems\"]]",
       "[Scripting [Quote: \"Strong scripting skills\"]]",
-      "[Hebrew [Quote: \"High proficiency in Hebrew\"]]"
+      "[Hebrew [Quote: \"High proficiency in Hebrew\"]]",
+      "[English [Quote: \"High proficiency in English\"]]"
     ],
     "Advantage - Degree Types": "None [Quote: \"None\"]",
     "Advantage - Degree Names": "None [Quote: \"None\"]",
@@ -328,7 +348,7 @@
     ],
     "Advantage - Hard Skills": [
       "[Azure [Quote: \"Experience with Azure.\"]]",
-      "[infrastructure [Quote: \"Experience building and scaling Production infrastructure from the ground up\"]]",
+      "[Infrastructure as Code [Quote: \"Experience building and scaling Production infrastructure from the ground up\"]]",
       "[SaaS [Quote: \"for a SaaS product\"]]",
       "[AI [Quote: \"Experience with AI products, LLM workloads, or Voice / Conversational AI systems.\"]]",
       "[LLM [Quote: \"Experience with AI products, LLM workloads, or Voice / Conversational AI systems.\"]]",
@@ -415,7 +435,7 @@
       "[OSPF [Quote: \"Solid knowledge of TCP/IP, VLAN, STP, BGP, OSPF, HSRP, and LACP\"]]",
       "[HSRP [Quote: \"Solid knowledge of TCP/IP, VLAN, STP, BGP, OSPF, HSRP, and LACP\"]]",
       "[LACP [Quote: \"Solid knowledge of TCP/IP, VLAN, STP, BGP, OSPF, HSRP, and LACP\"]]",
-      "[troubleshooting [Quote: \"Proven experience troubleshooting complex network environments\"]]",
+      "[Network Troubleshooting [Quote: \"Proven experience troubleshooting complex network environments\"]]",
       "[Firewalls [Quote: \"Familiarity with Firewalls and Network Security technologies\"]]",
       "[Network Security [Quote: \"Familiarity with Firewalls and Network Security technologies\"]]",
       "[Palo Alto [Quote: \"Experience with Palo Alto and Cisco ISE\"]]",

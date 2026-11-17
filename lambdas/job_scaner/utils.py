@@ -891,19 +891,9 @@ SKILL_QUOTE_PATTERN = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 
-
-def _normalize_spacing(text: str) -> str:
-    """Collapses newlines, tabs, and duplicate spaces for robust text matching."""
-    return re.sub(r"\s+", " ", text).strip().lower()
-
-
-def validate_hard_skills(
-    extracted_lines: list[str], source_text: str = ""
-) -> list[str]:
+def validate_hard_skills(extracted_lines: list[str], source_text: str) -> list[str]:
     # Maps normalized skill name -> (original_line, quote_length)
     best_skills: dict[str, tuple[str, int]] = {}
-
-    normalized_source = _normalize_spacing(source_text) if source_text else ""
 
     for line in extracted_lines:
         cleaned = line.strip()
@@ -917,35 +907,8 @@ def validate_hard_skills(
         if match:
             skill_name = match.group(1).strip()
             quote = match.group(2).strip()
-
-            # If source_text is provided, verify the quote is present in the text
-            if normalized_source:
-                normalized_quote = _normalize_spacing(quote)
-                # Drop the entire skill immediately if the quote was fabricated/not found
-                if not normalized_quote or normalized_quote not in normalized_source:
-                    continue
-
-            # --- Auto-correction Logic ---
-            # If the exact skill name isn't in the quote, find the closest word in the verified quote
-            if skill_name.lower() not in quote.lower():
-                quote_words = quote.split()
-                closest_matches = difflib.get_close_matches(
-                    skill_name, quote_words, n=1, cutoff=0.5
-                )
-
-                if closest_matches:
-                    skill_name = closest_matches[0]
-                    cleaned = f'{skill_name} [Quote: "{quote}"]'
-                else:
-                    # Drop the skill if it cannot be linked to the quote
-                    continue
-
             quote_len = len(quote)
         else:
-            # If line has no quote format, check if the skill itself appears in source_text
-            if normalized_source and _normalize_spacing(cleaned) not in normalized_source:
-                continue
-
             skill_name = cleaned
             quote_len = 0
 
