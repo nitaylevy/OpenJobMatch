@@ -83,8 +83,68 @@ export default function JobsPage({ state, actions }) {
     }
   };
 
+  const isUsingLocalData = fetchedJobs === defaultJobsData;
+
   const displayedAndSortedJobs = useMemo(() => {
-    const calculated = fetchedJobs.map((job) => ({
+    let jobsToProcess = fetchedJobs;
+
+    // Local Filtering Fallback (Only runs if Lambda wasn't used or failed)
+    if (isUsingLocalData) {
+      jobsToProcess = jobsToProcess.filter(job => {
+        // 1. Company Filter
+        if (companyFilter) {
+          const companies = companyFilter.split(/[,|/]/).map(c => c.trim().toLowerCase()).filter(Boolean);
+          const jobCompany = (job.company || job.company_name || '').toLowerCase();
+          if (companies.length > 0 && !companies.some(c => jobCompany.includes(c))) return false;
+        }
+
+        // 2. Job Title Filter (Checks BOTH title and full content)
+        if (jobTitleFilter) {
+          const titles = jobTitleFilter.split(/[,|/]/).map(t => t.trim().toLowerCase()).filter(Boolean);
+          const jTitle = (job.title || job.job_title || '').toLowerCase();
+          const jContent = (job.content_full || job.text || '').toLowerCase();
+          if (titles.length > 0 && !titles.some(t => jTitle.includes(t) || jContent.includes(t))) return false;
+        }
+
+        // 3. Location Filter
+        if (locationFilter) {
+          const locations = locationFilter.split(/[,|/]/).map(l => l.trim().toLowerCase()).filter(Boolean);
+          const jLoc = (job.location || '').toLowerCase();
+          if (locations.length > 0 && !locations.some(l => jLoc.includes(l))) return false;
+        }
+
+        // 4. Employment Type Filter
+        if (employmentTypeFilter !== 'all') {
+          const jEmp = (job.employment_type || '').toLowerCase();
+          // Check for 'full' or 'part' time matches
+          const typeKeyword = employmentTypeFilter.split('-')[0]; 
+          if (jEmp && !jEmp.includes(typeKeyword)) return false;
+        }
+
+        // 5. Experience Filter
+        const [minExp, maxExp] = experienceRange;
+        if (minExp > 0 || maxExp < 10) {
+          const jobMinExpRaw = job.min_experience_years || job['Min Experience Years'];
+          
+          let jobMinExp = null;
+          if (Array.isArray(jobMinExpRaw) && jobMinExpRaw.length > 0) {
+            jobMinExp = parseInt(jobMinExpRaw[0], 10);
+          } else if (typeof jobMinExpRaw === 'string' || typeof jobMinExpRaw === 'number') {
+            jobMinExp = parseInt(jobMinExpRaw, 10);
+          }
+          
+          if (jobMinExp !== null && !isNaN(jobMinExp)) {
+            if (jobMinExp < minExp) return false;
+            if (jobMinExp > maxExp && maxExp < 10) return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // Scoring & Sorting phase
+    const calculated = jobsToProcess.map((job) => ({
       job,
       scores: activeProfile ? calculateJobMatch(job, activeProfile) : null,
     }));
@@ -100,7 +160,16 @@ export default function JobsPage({ state, actions }) {
       const bonusB = b.scores?.advantages ?? -1;
       return bonusB - bonusA;
     });
-  }, [fetchedJobs, activeProfile]);
+  }, [
+    fetchedJobs, 
+    activeProfile, 
+    isUsingLocalData, 
+    companyFilter, 
+    jobTitleFilter, 
+    locationFilter, 
+    employmentTypeFilter, 
+    experienceRange
+  ]);
 
   const handleAddSkillsToProfile = (newSkills) => {
     if (!selectedSearchId || !actions?.handleUpdateSavedSearchSkills || !newSkills.length) return;
